@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rp_checkin/screens/announcement/views/announcement_screen.dart';
 import 'package:rp_checkin/screens/fill_phone/views/fill_phone_screen.dart';
 import 'package:rp_checkin/screens/login/views/login_screen.dart';
 
@@ -12,6 +13,9 @@ class RoutesManager {
       case RouteNames.fillPhone:
         screen = const FillPhoneScreen();
         break;
+      case RouteNames.announcement:
+        screen = const AnnouncementScreen();
+        break;
     }
     return MaterialPageRoute(builder: (_) => screen);
   }
@@ -20,4 +24,5 @@ class RoutesManager {
 class RouteNames {
   static const login = '/login';
   static const fillPhone = '/fill_phone';
+  static const announcement = '/announcement';
 }

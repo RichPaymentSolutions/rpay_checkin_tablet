@@ -59,22 +59,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RadioButton(
-                            value: '',
-                          ),
-                          Expanded(
-                            child: Text(
-                              'By checking this box and clicking OK, I agree to receive RichPOS as well as "Business name" notifications via auto text! Unsubscribe anytime and still participate in RichPOS',
-                              style: TextStyleConstant.livvicW500(
-                                fontSize: 16,
-                                color: ColorConstant.grey637381,
-                              ),
+                      child: Visibility(
+                        visible: false,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            RadioButton(
+                              value: '',
                             ),
-                          )
-                        ],
+                            Expanded(
+                              child: Text(
+                                'By checking this box and clicking OK, I agree to receive RichPOS as well as "Business name" notifications via auto text! Unsubscribe anytime and still participate in RichPOS',
+                                style: TextStyleConstant.livvicW500(
+                                  fontSize: 16,
+                                  color: ColorConstant.grey637381,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     )
                   ],

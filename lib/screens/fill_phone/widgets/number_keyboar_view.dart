@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rp_checkin/components/app_form_field.dart';
 import 'package:rp_checkin/extensions/string_ext.dart';
+import 'package:rp_checkin/routes/routes_manager.dart';
 import 'package:rp_checkin/theme/color_constant.dart';
 import 'package:rp_checkin/theme/text_style_constant.dart';
 
@@ -30,21 +31,26 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
   String _num = '';
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Text(
-            _num,
-            style: TextStyleConstant.livvicW600(
-              fontSize: 32,
-              color: ColorConstant.primary,
-            ),
-          ),
-          const SizedBox(
-            height: 43,
-          ),
-          Container(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          _num == '' ? 'Please enter your phone number to continue.' : _num,
+          style: _num == ''
+              ? TextStyleConstant.livvicW400(
+                  fontSize: 16,
+                  color: ColorConstant.grey637381,
+                )
+              : TextStyleConstant.livvicW600(
+                  fontSize: 32,
+                  color: ColorConstant.primary,
+                ),
+        ),
+        const SizedBox(
+          height: 43,
+        ),
+        SizedBox(
+          child: Container(
             width: 348,
             // height: 472,
             // color: Colors.red,
@@ -53,9 +59,9 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
               runSpacing: 24,
               children: _keyboard.map((e) => _buildNumView(e)).toList(),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 
@@ -100,6 +106,7 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
         _num = _num.substring(0, _num.length - 1);
       }
     } else if (title == 'v') {
+      Navigator.of(context).pushNamed(RouteNames.announcement);
     } else {
       _num += title;
     }
