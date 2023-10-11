@@ -19,6 +19,7 @@ class AppFormField extends StatelessWidget {
     this.contentPadding,
     this.onChanged,
     this.onFieldSubmitted,
+    this.textstyle,
   });
   final int? maxLines;
   final String? hint;
@@ -34,6 +35,7 @@ class AppFormField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final Function(String)? onChanged;
   final Function(String)? onFieldSubmitted;
+  final TextStyle? textstyle;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -44,10 +46,11 @@ class AppFormField extends StatelessWidget {
       controller: controller,
       onChanged: onChanged,
       onFieldSubmitted: onFieldSubmitted,
-      style: TextStyleConstant.livvicW400(
-        fontSize: 16,
-        color: ColorConstant.heading,
-      ),
+      style: textstyle ??
+          TextStyleConstant.livvicW400(
+            fontSize: 16,
+            color: ColorConstant.heading,
+          ),
       decoration: InputDecoration(
         hintText: hint,
         prefixIcon: prefixIcon,

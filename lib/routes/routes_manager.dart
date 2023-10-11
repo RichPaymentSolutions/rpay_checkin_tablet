@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rp_checkin/screens/announcement/views/announcement_screen.dart';
+import 'package:rp_checkin/screens/fill_birthday/views/fill_birthday_screen.dart';
+import 'package:rp_checkin/screens/fill_name/views/fill_name_screen.dart';
 import 'package:rp_checkin/screens/fill_phone/views/fill_phone_screen.dart';
 import 'package:rp_checkin/screens/login/views/login_screen.dart';
 
@@ -16,6 +18,12 @@ class RoutesManager {
       case RouteNames.announcement:
         screen = const AnnouncementScreen();
         break;
+      case RouteNames.filleName:
+        screen = const FillNameScreen();
+        break;
+      case RouteNames.fillBirthday:
+        screen = const FillBirthdayScreen();
+        break;
     }
     return MaterialPageRoute(builder: (_) => screen);
   }
@@ -25,4 +33,6 @@ class RouteNames {
   static const login = '/login';
   static const fillPhone = '/fill_phone';
   static const announcement = '/announcement';
+  static const filleName = '/fill_name';
+  static const fillBirthday = '/fill_birthday';
 }
