@@ -7,8 +7,11 @@ import 'package:rp_checkin/theme/color_constant.dart';
 import 'package:rp_checkin/theme/text_style_constant.dart';
 
 class FillNameScreen extends StatefulWidget {
-  const FillNameScreen({super.key});
-
+  const FillNameScreen({
+    super.key,
+    this.isEmail = false,
+  });
+  final bool isEmail;
   @override
   State<FillNameScreen> createState() => _FillNameScreenState();
 }
@@ -21,7 +24,9 @@ class _FillNameScreenState extends State<FillNameScreen> {
         child: Column(
           children: [
             CustomAppBar(
-              title: 'Please enter your name',
+              title: widget.isEmail
+                  ? 'what’s your best email ?'
+                  : 'Please enter your name',
               onNext: () =>
                   Navigator.of(context).pushNamed(RouteNames.fillBirthday),
             ),

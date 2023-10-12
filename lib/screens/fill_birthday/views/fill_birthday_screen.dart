@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rp_checkin/base/base_screen.dart';
+import 'package:rp_checkin/components/app_button.dart';
 import 'package:rp_checkin/components/custom_app_bar.dart';
+import 'package:rp_checkin/routes/routes_manager.dart';
+import 'package:rp_checkin/theme/color_constant.dart';
 import 'package:rp_checkin/theme/text_style_constant.dart';
 
 class FillBirthdayScreen extends StatefulWidget {
@@ -26,84 +29,104 @@ class _FillBirthdayScreenState extends State<FillBirthdayScreen> {
     'Nov',
     'Dec',
   ];
-  int _selectedFruit = 0;
+  int _selectedMonth = 0;
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
       body: SafeArea(
         child: Column(
           children: [
-            const CustomAppBar(
+            CustomAppBar(
               title: 'What’s your birthday?',
+              onNext: () => Navigator.of(context)
+                  .pushNamed(RouteNames.filleName, arguments: true),
             ),
             Expanded(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width / 3,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: CupertinoPicker(
-                        magnification: 1.22,
-
-                        useMagnifier: true,
-                        itemExtent: 57,
-                        // This sets the initial item.
-                        scrollController: FixedExtentScrollController(
-                          initialItem: _selectedFruit,
-                        ),
-                        // This is called when selected item is changed.
-                        onSelectedItemChanged: (int selectedItem) {
-                          setState(() {
-                            _selectedFruit = selectedItem;
-                          });
-                        },
-                        children: List<Widget>.generate(
-                          _months.length,
-                          (int index) {
-                            return Center(
-                              child: Text(
-                                _months[index],
-                                style: TextStyleConstant.livvicW400(
-                                  fontSize: 22,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: CupertinoPicker(
-                        magnification: 1.22,
-
-                        useMagnifier: true,
-                        itemExtent: 32,
-                        // This sets the initial item.
-                        scrollController: FixedExtentScrollController(
-                          initialItem: _selectedFruit,
-                        ),
-                        // This is called when selected item is changed.
-                        onSelectedItemChanged: (int selectedItem) {
-                          setState(() {
-                            _selectedFruit = selectedItem;
-                          });
-                        },
-                        children: List<Widget>.generate(30, (int index) {
-                          return Center(
-                            child: Text(
-                              '${index + 1}',
-                            ),
-                          );
-                        }),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              child: _buildPickerView(context),
             ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 40),
+              child: AppButton(
+                width: 260,
+                height: 54,
+                titleText: 'Skip',
+                color: Colors.transparent,
+                titleStyle: TextStyleConstant.livvicW500(
+                  color: ColorConstant.grey637281,
+                  fontSize: 24,
+                ),
+                hideShadow: true,
+              ),
+            )
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildPickerView(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width / 2,
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildCupertinoPicker(
+              List<Widget>.generate(
+                _months.length,
+                (int index) {
+                  return Center(
+                    child: Text(
+                      _months[index],
+                      style: TextStyleConstant.livvicW400(
+                        fontSize: 22,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              initialItem: _selectedMonth,
+            ),
+          ),
+          const SizedBox(
+            width: 88,
+          ),
+          Expanded(
+            child: _buildCupertinoPicker(
+              List<Widget>.generate(
+                31,
+                (int index) {
+                  return Center(
+                    child: Text(
+                      (index + 1).toString(),
+                      style: TextStyleConstant.livvicW400(
+                        fontSize: 22,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              initialItem: _selectedMonth,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  CupertinoPicker _buildCupertinoPicker(
+    List<Widget> children, {
+    required int initialItem,
+    Function(int)? onChanged,
+  }) {
+    return CupertinoPicker(
+      magnification: 1.22,
+      useMagnifier: true,
+      itemExtent: 57,
+      scrollController: FixedExtentScrollController(
+        initialItem: initialItem,
+      ),
+      onSelectedItemChanged: onChanged,
+      children: children,
     );
   }
 }

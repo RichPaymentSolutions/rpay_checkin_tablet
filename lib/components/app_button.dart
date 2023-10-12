@@ -15,11 +15,13 @@ class AppButton extends StatelessWidget {
       this.titleStyle,
       this.borderColor,
       this.disable = false,
+      this.hideShadow = false,
       this.titleText,
       this.title});
   final double? height;
   final double? width;
   final Color? color;
+  final bool hideShadow;
 
   final Function()? onTap;
   final bool hideBorder;
@@ -38,15 +40,16 @@ class AppButton extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              offset: const Offset(0, 8),
-              blurRadius: 16,
-              color: ColorConstant.blue0D72E3.withOpacity(0.24),
-            )
-          ],
-          color:
-              (color ?? ColorConstant.primary).withOpacity(disable ? 0.6 : 1),
+          boxShadow: hideShadow
+              ? null
+              : [
+                  BoxShadow(
+                    offset: const Offset(0, 8),
+                    blurRadius: 16,
+                    color: ColorConstant.blue0D72E3.withOpacity(0.24),
+                  )
+                ],
+          color: color ?? ColorConstant.primary,
           borderRadius: BorderRadius.all(
             Radius.circular(radius ?? 8.0),
           ),

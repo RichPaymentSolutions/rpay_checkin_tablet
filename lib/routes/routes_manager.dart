@@ -19,7 +19,9 @@ class RoutesManager {
         screen = const AnnouncementScreen();
         break;
       case RouteNames.filleName:
-        screen = const FillNameScreen();
+        screen = FillNameScreen(
+          isEmail: settings.arguments != null ? true : false,
+        );
         break;
       case RouteNames.fillBirthday:
         screen = const FillBirthdayScreen();

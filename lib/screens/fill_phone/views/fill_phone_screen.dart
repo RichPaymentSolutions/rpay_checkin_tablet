@@ -69,7 +69,7 @@ class _FillPhoneScreenState extends State<FillPhoneScreen> {
                                 'By checking this box and clicking OK, I agree to receive RichPOS as well as "Business name" notifications via auto text! Unsubscribe anytime and still participate in RichPOS',
                                 style: TextStyleConstant.livvicW500(
                                   fontSize: 16,
-                                  color: ColorConstant.grey637381,
+                                  color: ColorConstant.grey637281,
                                 ),
                               ),
                             )

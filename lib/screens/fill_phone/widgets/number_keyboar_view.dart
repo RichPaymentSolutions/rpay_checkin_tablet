@@ -39,7 +39,7 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
           style: _num == ''
               ? TextStyleConstant.livvicW400(
                   fontSize: 16,
-                  color: ColorConstant.grey637381,
+                  color: ColorConstant.grey637281,
                 )
               : TextStyleConstant.livvicW600(
                   fontSize: 32,

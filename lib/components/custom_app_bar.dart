@@ -52,7 +52,7 @@ class CustomAppBar extends StatelessWidget {
                     'Back',
                     style: TextStyleConstant.livvicW500(
                       fontSize: 24,
-                      color: ColorConstant.grey637381,
+                      color: ColorConstant.grey637281,
                     ),
                   )
                 ],
