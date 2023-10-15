@@ -198,6 +198,15 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                             .withOpacity(0.16),
                                       )
                                     ],
+                                    
+                                  ),
+                                  child: Column(
+
+                                    children: [
+                                      Text(
+                                        
+                                      )
+                                    ],
                                   ),
                                 );
                               },
