@@ -27,8 +27,9 @@ class _FillNameScreenState extends State<FillNameScreen> {
               title: widget.isEmail
                   ? 'what’s your best email ?'
                   : 'Please enter your name',
-              onNext: () =>
-                  Navigator.of(context).pushNamed(RouteNames.fillBirthday),
+              onNext: () => Navigator.of(context).pushNamed(widget.isEmail
+                  ? RouteNames.chooseService
+                  : RouteNames.fillBirthday),
             ),
             const SizedBox(
               height: 70,
