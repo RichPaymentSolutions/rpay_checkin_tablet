@@ -11,4 +11,5 @@ class ColorConstant {
   static const error = Color(0xffDD4C23);
   static const green84C81B = Color(0xff84C81B);
   static const grayECEEF5 = Color(0xffECEEF5);
+  static const grayDBDFE8 = Color(0xffDBDFE8);
 }

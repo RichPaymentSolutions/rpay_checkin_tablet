@@ -61,11 +61,11 @@ class AppFormField extends StatelessWidget {
         contentPadding: contentPadding ??
             const EdgeInsets.only(top: 16, bottom: 16, left: 16),
         labelStyle: TextStyleConstant.publicSansW400(
-          fontSize: 12,
+          fontSize: 16,
           color: ColorConstant.grey7a,
         ),
         hintStyle: TextStyleConstant.publicSansW400(
-          fontSize: 12,
+          fontSize: 16,
           color: ColorConstant.grey7a,
         ),
         border: border ??

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rp_checkin/theme/color_constant.dart';
 
 class TextStyleConstant {
   static const livvic = 'Livvic';
@@ -6,7 +7,7 @@ class TextStyleConstant {
 
   static TextStyle livvicW500({
     double fontSize = 14,
-    Color color = Colors.black,
+    Color color = ColorConstant.heading,
   }) {
     return TextStyle(
       fontFamily: livvic,
@@ -18,7 +19,7 @@ class TextStyleConstant {
 
   static TextStyle livvicW600({
     double fontSize = 14,
-    Color color = Colors.black,
+    Color color = ColorConstant.heading,
   }) {
     return TextStyle(
       fontFamily: livvic,
@@ -30,7 +31,7 @@ class TextStyleConstant {
 
   static TextStyle livvicW400({
     double fontSize = 14,
-    Color color = Colors.black,
+    Color color = ColorConstant.heading,
   }) {
     return TextStyle(
       fontFamily: livvic,
@@ -41,7 +42,7 @@ class TextStyleConstant {
 
   static TextStyle publicSansW600({
     double fontSize = 14,
-    Color color = Colors.black,
+    Color color = ColorConstant.heading,
   }) {
     return TextStyle(
       fontFamily: publicSans,
@@ -53,7 +54,7 @@ class TextStyleConstant {
 
   static TextStyle publicSansW700({
     double fontSize = 14,
-    Color color = Colors.black,
+    Color color = ColorConstant.heading,
   }) {
     return TextStyle(
       fontFamily: publicSans,
@@ -65,11 +66,23 @@ class TextStyleConstant {
 
   static TextStyle publicSansW400({
     double fontSize = 14,
-    Color color = Colors.black,
+    Color color = ColorConstant.heading,
   }) {
     return TextStyle(
       fontFamily: publicSans,
       fontSize: fontSize,
+      color: color,
+    );
+  }
+
+  static TextStyle publicSansW500({
+    double fontSize = 14,
+    Color color = ColorConstant.heading,
+  }) {
+    return TextStyle(
+      fontFamily: publicSans,
+      fontSize: fontSize,
+      fontWeight: FontWeight.w500,
       color: color,
     );
   }

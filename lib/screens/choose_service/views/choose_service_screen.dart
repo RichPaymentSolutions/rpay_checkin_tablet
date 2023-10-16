@@ -1,9 +1,11 @@
+import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rp_checkin/base/base_screen.dart';
 import 'package:rp_checkin/components/app_form_field.dart';
 import 'package:rp_checkin/components/custom_app_bar.dart';
 import 'package:rp_checkin/extensions/string_ext.dart';
+import 'package:rp_checkin/screens/list_staff/views/list_staff_dialog.dart';
 import 'package:rp_checkin/theme/color_constant.dart';
 import 'package:rp_checkin/theme/text_style_constant.dart';
 
@@ -180,8 +182,12 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               padding: const EdgeInsets.all(24),
                               itemBuilder: (_, index) {
                                 return Container(
-                                  height: 230,
+                                  // height: 230,
                                   margin: const EdgeInsets.only(bottom: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    // vertical: 10,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(16),
@@ -198,13 +204,113 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                             .withOpacity(0.16),
                                       )
                                     ],
-                                    
                                   ),
                                   child: Column(
-
                                     children: [
-                                      Text(
-                                        
+                                      InkWell(
+                                        child: Container(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                'Category 1',
+                                                style: TextStyleConstant
+                                                    .livvicW600(
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                              // Transform.rotate(
+                                              //   angle:
+                                              //       _isPriceDown ? -0 : math.pi,
+                                              //   child: SvgPicture.asset(
+                                              //       'ic_chevron_up'.iconSvg),
+                                              // ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      ListView.builder(
+                                        itemCount: 6,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (_, index) {
+                                          return Container(
+                                            height: 62,
+                                            decoration: DottedDecoration(
+                                              color: ColorConstant.grey919EAB
+                                                  .withOpacity(0.24),
+                                              strokeWidth: 0.5,
+                                              linePosition: LinePosition.bottom,
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 22),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    'Services 3',
+                                                    style: TextStyleConstant
+                                                        .publicSansW400(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () =>
+                                                      showModalBottomSheet(
+                                                    context: context,
+                                                    useRootNavigator: true,
+                                                    isScrollControlled: true,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(20),
+                                                        topRight:
+                                                            Radius.circular(20),
+                                                      ),
+                                                    ),
+                                                    builder: (_) =>
+                                                        const FractionallySizedBox(
+                                                      heightFactor: 0.9,
+                                                      child: ListStaffDialog(),
+                                                    ),
+                                                  ),
+                                                  child: Container(
+                                                    height: 32,
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 10),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      border: Border.all(
+                                                        color: ColorConstant
+                                                            .primary
+                                                            .withOpacity(0.5),
+                                                      ),
+                                                    ),
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          'Staff Abc',
+                                                          style: TextStyleConstant
+                                                              .publicSansW500(
+                                                                  color: ColorConstant
+                                                                      .primary),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                        },
                                       )
                                     ],
                                   ),
