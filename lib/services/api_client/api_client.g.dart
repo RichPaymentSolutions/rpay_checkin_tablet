@@ -19,13 +19,13 @@ class _ApiClient implements ApiClient {
   String? baseUrl;
 
   @override
-  Future<BaseResponse<dynamic>?> login(dynamic data) async {
+  Future<BaseResponse<LoginResponse>?> login(dynamic data) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = data;
     final _result = await _dio.fetch<Map<String, dynamic>?>(
-        _setStreamType<BaseResponse<dynamic>>(Options(
+        _setStreamType<BaseResponse<LoginResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -43,9 +43,9 @@ class _ApiClient implements ApiClient {
             ))));
     final value = _result.data == null
         ? null
-        : BaseResponse<dynamic>.fromJson(
+        : BaseResponse<LoginResponse>.fromJson(
             _result.data!,
-            (json) => json as dynamic,
+            (json) => LoginResponse.fromJson(json as Map<String, dynamic>),
           );
     return value;
   }

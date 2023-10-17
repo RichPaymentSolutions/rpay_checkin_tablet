@@ -39,7 +39,7 @@ class _FillBirthdayScreenState extends State<FillBirthdayScreen> {
             CustomAppBar(
               title: 'What’s your birthday?',
               onNext: () => Navigator.of(context)
-                  .pushNamed(RouteNames.filleName, arguments: true),
+                  .pushNamed(RouteNames.fillName, arguments: true),
             ),
             Expanded(
               child: _buildPickerView(context),

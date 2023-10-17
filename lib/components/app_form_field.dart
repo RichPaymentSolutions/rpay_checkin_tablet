@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rp_checkin/theme/color_constant.dart';
 import 'package:rp_checkin/theme/text_style_constant.dart';
 
@@ -20,6 +21,9 @@ class AppFormField extends StatelessWidget {
     this.onChanged,
     this.onFieldSubmitted,
     this.textstyle,
+    this.textAlign = TextAlign.start,
+    this.inputFormatters,
+    this.readOnly = false,
   });
   final int? maxLines;
   final String? hint;
@@ -36,6 +40,9 @@ class AppFormField extends StatelessWidget {
   final Function(String)? onChanged;
   final Function(String)? onFieldSubmitted;
   final TextStyle? textstyle;
+  final TextAlign textAlign;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool readOnly;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -45,7 +52,10 @@ class AppFormField extends StatelessWidget {
       maxLines: maxLines,
       controller: controller,
       onChanged: onChanged,
+      textAlign: textAlign,
       onFieldSubmitted: onFieldSubmitted,
+      inputFormatters: inputFormatters,
+      readOnly: readOnly,
       style: textstyle ??
           TextStyleConstant.livvicW400(
             fontSize: 16,

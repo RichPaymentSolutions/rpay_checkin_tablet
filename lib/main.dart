@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rp_checkin/routes/routes_manager.dart';
 import 'package:rp_checkin/services/di/di.dart';
+import 'package:rp_checkin/services/shared_manager/shared_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  DependencyInjection.inject();
+  await DependencyInjection.inject();
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeRight,
     DeviceOrientation.landscapeLeft,
@@ -16,7 +18,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,7 +26,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: false,
       ),
       onGenerateRoute: RoutesManager.generateRoute,
-      initialRoute: RouteNames.chooseService,
+      initialRoute:
+          injector.get<SharedManager>().getString(SharedKey.login.name) == null
+              ? RouteNames.login
+              : RouteNames.fillPhone,
     );
   }
 }

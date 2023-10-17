@@ -19,7 +19,7 @@ class RoutesManager {
       case RouteNames.announcement:
         screen = const AnnouncementScreen();
         break;
-      case RouteNames.filleName:
+      case RouteNames.fillName:
         screen = FillNameScreen(
           isEmail: settings.arguments != null ? true : false,
         );
@@ -39,7 +39,7 @@ class RouteNames {
   static const login = '/login';
   static const fillPhone = '/fill_phone';
   static const announcement = '/announcement';
-  static const filleName = '/fill_name';
+  static const fillName = '/fill_name';
   static const fillBirthday = '/fill_birthday';
   static const chooseService = '/choose_service';
 }

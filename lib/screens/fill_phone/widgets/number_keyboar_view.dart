@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:rp_checkin/components/app_form_field.dart';
 import 'package:rp_checkin/extensions/string_ext.dart';
 import 'package:rp_checkin/routes/routes_manager.dart';
 import 'package:rp_checkin/theme/color_constant.dart';
@@ -29,13 +28,16 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
     'v',
   ];
   String _num = '';
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          _num == '' ? 'Please enter your phone number to continue.' : _num,
+          _num == ''
+              ? 'Please enter your phone number to continue.'
+              : _num.format(),
           style: _num == ''
               ? TextStyleConstant.livvicW400(
                   fontSize: 16,
@@ -50,15 +52,13 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
           height: 43,
         ),
         SizedBox(
-          child: Container(
-            width: 348,
-            // height: 472,
-            // color: Colors.red,
-            child: Wrap(
-              spacing: 24,
-              runSpacing: 24,
-              children: _keyboard.map((e) => _buildNumView(e)).toList(),
-            ),
+          width: 348,
+          // height: 472,
+          // color: Colors.red,
+          child: Wrap(
+            spacing: 24,
+            runSpacing: 24,
+            children: _keyboard.map((e) => _buildNumView(e)).toList(),
           ),
         )
       ],
@@ -108,8 +108,23 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
     } else if (title == 'v') {
       Navigator.of(context).pushNamed(RouteNames.announcement);
     } else {
+      if (_num.length == 10) {
+        return;
+      }
       _num += title;
     }
     setState(() {});
+  }
+}
+
+extension NumberTextExt on String {
+  String format() {
+    if (length <= 3) {
+      return '+1 ($this)';
+    }
+    if (length <= 6) {
+      return '+1 (${substring(0, 3)}) ${substring(3, length)}';
+    }
+    return '+1 (${substring(0, 3)}) ${substring(3, 6)} - ${substring(6, length)}';
   }
 }

@@ -24,7 +24,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
           children: [
             CustomAppBar(
               onNext: () =>
-                  Navigator.of(context).pushNamed(RouteNames.filleName),
+                  Navigator.of(context).pushNamed(RouteNames.fillName),
             ),
             Expanded(
               child: Padding(

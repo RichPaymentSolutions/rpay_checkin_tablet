@@ -10,12 +10,14 @@ class BaseResponse<T> {
   String? status;
   String? message;
   int? statusCode;
+  String? messageKey;
 
   BaseResponse({
     this.statusCode,
     this.data,
     this.status,
     this.message,
+    this.messageKey,
   });
 
   factory BaseResponse.fromJson(
