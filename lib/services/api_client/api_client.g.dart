@@ -50,6 +50,70 @@ class _ApiClient implements ApiClient {
     return value;
   }
 
+  @override
+  Future<BaseResponse<BusinessInfoModel>?> getBusinessInfo() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>?>(
+        _setStreamType<BaseResponse<BusinessInfoModel>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/tenant/tenants/business-info',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data == null
+        ? null
+        : BaseResponse<BusinessInfoModel>.fromJson(
+            _result.data!,
+            (json) => BusinessInfoModel.fromJson(json as Map<String, dynamic>),
+          );
+    return value;
+  }
+
+  @override
+  Future<BaseResponse<CustomerModel>?> getCustomerInfo(String phone) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'phone': phone};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>?>(
+        _setStreamType<BaseResponse<CustomerModel>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/customer/customers/info',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data == null
+        ? null
+        : BaseResponse<CustomerModel>.fromJson(
+            _result.data!,
+            (json) => CustomerModel.fromJson(json as Map<String, dynamic>),
+          );
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

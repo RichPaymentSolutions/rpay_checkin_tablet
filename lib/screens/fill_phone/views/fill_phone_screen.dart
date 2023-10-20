@@ -1,10 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rp_checkin/base/base_screen.dart';
 import 'package:rp_checkin/components/g_image.dart';
 import 'package:rp_checkin/components/radio_button.dart';
 import 'package:rp_checkin/extensions/string_ext.dart';
+import 'package:rp_checkin/routes/routes_manager.dart';
 import 'package:rp_checkin/screens/fill_phone/widgets/number_keyboar_view.dart';
+import 'package:rp_checkin/services/api_client/api_client.dart';
+import 'package:rp_checkin/services/di/di.dart';
+import 'package:rp_checkin/services/shared_manager/shared_manager.dart';
 import 'package:rp_checkin/theme/color_constant.dart';
 import 'package:rp_checkin/theme/text_style_constant.dart';
 
@@ -16,6 +22,15 @@ class FillPhoneScreen extends StatefulWidget {
 }
 
 class _FillPhoneScreenState extends State<FillPhoneScreen> {
+  _getCustomerInfo(String phone) async {
+    final res = await injector.get<ApiClient>().getCustomerInfo(phone);
+    if (res != null) {
+      if (res.data == null) {
+        Navigator.of(context).pushNamed(RouteNames.fillName);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
@@ -116,34 +131,48 @@ class _FillPhoneScreenState extends State<FillPhoneScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Business name',
+                          injector
+                                  .get<SharedManager>()
+                                  .getString(SharedKey.businessName.name) ??
+                              '',
                           style: TextStyleConstant.publicSansW600(fontSize: 32),
                         ),
                         const SizedBox(
                           height: 8,
                         ),
-                        NumberKeyboardView(),
+                        NumberKeyboardView(
+                          onNext: _getCustomerInfo,
+                        ),
                       ],
                     ),
                   ),
                   Positioned(
                     top: 24,
                     right: 0,
-                    child: Container(
-                      height: 46,
-                      width: 46,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 7,
-                            color: ColorConstant.grey919EAB.withOpacity(0.43),
-                          )
-                        ],
-                      ),
-                      child: Center(
-                        child: SvgPicture.asset('ic_logout'.iconSvg),
+                    child: InkWell(
+                      onTap: () {
+                        injector.get<SharedManager>().clear();
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          RouteNames.login,
+                          (route) => false,
+                        );
+                      },
+                      child: Container(
+                        height: 46,
+                        width: 46,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 7,
+                              color: ColorConstant.grey919EAB.withOpacity(0.43),
+                            )
+                          ],
+                        ),
+                        child: Center(
+                          child: SvgPicture.asset('ic_logout'.iconSvg),
+                        ),
                       ),
                     ),
                   )

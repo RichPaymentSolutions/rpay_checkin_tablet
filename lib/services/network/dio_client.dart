@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:rp_checkin/services/network/interceptor/auth_interceptor.dart';
+import 'package:rp_checkin/services/network/logger.dart';
 
 class DioClient {
   static late Dio _dio;
@@ -25,6 +27,9 @@ class DioClient {
     // _dio.options.headers['content-Type'] = 'application/json';
 
     /// Unified add authentication request header
+    if (kDebugMode) {
+      _dio.interceptors.add(LoggerInterceptor());
+    }
     _dio.interceptors.add(AuthInterceptor(_dio));
     // _dio.interceptors.add(
     //   RetryOnConnectionChangeInterceptor(

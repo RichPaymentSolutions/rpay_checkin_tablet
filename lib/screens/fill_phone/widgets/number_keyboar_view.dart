@@ -6,8 +6,11 @@ import 'package:rp_checkin/theme/color_constant.dart';
 import 'package:rp_checkin/theme/text_style_constant.dart';
 
 class NumberKeyboardView extends StatefulWidget {
-  const NumberKeyboardView({super.key});
-
+  const NumberKeyboardView({
+    super.key,
+    this.onNext,
+  });
+  final Function(String)? onNext;
   @override
   State<NumberKeyboardView> createState() => _NumberKeyboardViewState();
 }
@@ -106,7 +109,10 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
         _num = _num.substring(0, _num.length - 1);
       }
     } else if (title == 'v') {
-      Navigator.of(context).pushNamed(RouteNames.announcement);
+      if (_num.length != 10) {
+        return;
+      }
+      widget.onNext?.call(_num);
     } else {
       if (_num.length == 10) {
         return;

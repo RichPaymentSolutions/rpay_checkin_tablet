@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:rp_checkin/services/di/di.dart';
+import 'package:rp_checkin/services/shared_manager/shared_manager.dart';
 
 class AuthInterceptor extends InterceptorsWrapper {
   Dio dio;
@@ -7,9 +9,15 @@ class AuthInterceptor extends InterceptorsWrapper {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    // var user = await injector.get<DataPrefs>().getUser();
+    String? token =
+        injector.get<SharedManager>().getString(SharedKey.accessToken.name);
+    String? tenantId =
+        injector.get<SharedManager>().getString(SharedKey.tenantId.name);
 
-    // if (user?.accessToken != null) {
+    if (token != null) {
+      options.headers['authorizer'] = token;
+      options.headers['x-tenant-id'] = tenantId;
+    }
     //   options.headers['authorizer'] = user?.accessToken;
     //   options.headers['x-tenant-id'] = user?.tenantId;
     //   options.headers['x-pos-id'] = 'app';

@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: RoutesManager.generateRoute,
       initialRoute:
-          injector.get<SharedManager>().getString(SharedKey.login.name) == null
+          injector.get<SharedManager>().getString(SharedKey.accessToken.name) ==
+                  null
               ? RouteNames.login
               : RouteNames.fillPhone,
     );

@@ -1,7 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum SharedKey {
-  login,
+  accessToken,
+  businessName,
+  tenantId,
 }
 
 class SharedManager {
@@ -14,5 +16,9 @@ class SharedManager {
 
   String? getString(String key) {
     return shared.getString(key);
+  }
+
+  clear() {
+    shared.clear();
   }
 }

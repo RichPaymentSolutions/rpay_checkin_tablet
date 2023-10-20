@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rp_checkin/base/base_screen.dart';
@@ -28,6 +29,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailTxtController = TextEditingController();
   final _passTxtController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    if (kDebugMode) {
+      _emailTxtController.text = 'richdev';
+      _passTxtController.text = '12345678x@X';
+    }
+  }
 
   _login() async {
     if (!_formKey.currentState!.validate()) {
@@ -43,21 +52,38 @@ class _LoginScreenState extends State<LoginScreen> {
     };
 
     final res = await injector.get<ApiClient>().login(data);
-    setState(() {
-      _isLoading = false;
-    });
+
     if (res == null) {
       return;
     }
     if (res.messageKey == 'IncorrectUsernameOrPassword') {
+      setState(() {
+        _isLoading = false;
+      });
       DialogHelper.showOkDialog(context, 'Incorrect username or password!');
       return;
     }
 
     injector
         .get<SharedManager>()
-        .setString(SharedKey.login.name, res.data!.accessToken!);
-    Navigator.of(context).pushNamed(RouteNames.fillPhone);
+        .setString(SharedKey.accessToken.name, res.data!.accessToken!);
+    injector
+        .get<SharedManager>()
+        .setString(SharedKey.tenantId.name, res.data!.tenantId!);
+    _getBusinessInfo();
+  }
+
+  _getBusinessInfo() async {
+    final res = await injector.get<ApiClient>().getBusinessInfo();
+    setState(() {
+      _isLoading = false;
+    });
+    if (res != null && res.data != null) {
+      injector
+          .get<SharedManager>()
+          .setString(SharedKey.businessName.name, res.data!.businessName!);
+      Navigator.of(context).pushNamed(RouteNames.fillPhone);
+    }
   }
 
   @override
