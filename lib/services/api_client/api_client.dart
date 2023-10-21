@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:rp_checkin/models/base/base_response.dart';
 import 'package:rp_checkin/models/business_info/business_info_model.dart';
+import 'package:rp_checkin/models/category/category_model.dart';
 import 'package:rp_checkin/models/customer/customer_model.dart';
 import 'package:rp_checkin/models/login/login_response.dart';
+import 'package:rp_checkin/models/staff/staff_model.dart';
 
 part 'api_client.g.dart';
 
@@ -19,4 +21,8 @@ abstract class ApiClient {
   Future<BaseResponse<CustomerModel>?> getCustomerInfo(
     @Query('phone') String phone,
   );
+  @GET('/staff/staffs')
+  Future<BaseResponse<List<StaffModel>>?> getStaffs();
+  @GET('/catalog/catalog/services')
+  Future<BaseResponse<List<CategoryModel>>?> getCatalogs();
 }

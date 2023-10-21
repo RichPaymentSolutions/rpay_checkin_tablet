@@ -5,7 +5,10 @@ import 'package:rp_checkin/base/base_screen.dart';
 import 'package:rp_checkin/components/app_form_field.dart';
 import 'package:rp_checkin/components/custom_app_bar.dart';
 import 'package:rp_checkin/extensions/string_ext.dart';
+import 'package:rp_checkin/models/category/category_model.dart';
 import 'package:rp_checkin/screens/list_staff/views/list_staff_dialog.dart';
+import 'package:rp_checkin/services/api_client/api_client.dart';
+import 'package:rp_checkin/services/di/di.dart';
 import 'package:rp_checkin/theme/color_constant.dart';
 import 'package:rp_checkin/theme/text_style_constant.dart';
 
@@ -17,7 +20,20 @@ class ChooseServiceScreen extends StatefulWidget {
 }
 
 class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
+  List<CategoryModel> _catalogs = [];
   @override
+  void initState() {
+    _getCatalogs();
+    super.initState();
+  }
+
+  _getCatalogs() async {
+    final res = await injector.get<ApiClient>().getCatalogs();
+    setState(() {
+      _catalogs = res?.data ?? [];
+    });
+  }
+
   Widget build(BuildContext context) {
     return BaseScreen(
       body: SafeArea(
@@ -54,69 +70,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                 ),
                 child: Row(
                   children: [
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        padding: const EdgeInsets.only(
-                          top: 30,
-                          left: 16,
-                          right: 16,
-                          bottom: 16,
-                        ),
-                        margin: const EdgeInsets.only(bottom: 27),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              offset: const Offset(0, 12),
-                              blurRadius: 24,
-                              color: ColorConstant.grey919EAB.withOpacity(0.1),
-                            ),
-                            BoxShadow(
-                              blurRadius: 2,
-                              color: ColorConstant.grey919EAB.withOpacity(0.16),
-                            )
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Choose categories',
-                              style: TextStyleConstant.livvicW600(
-                                fontSize: 20,
-                              ),
-                            ),
-                            Expanded(
-                              child: ListView.builder(
-                                itemCount: 10,
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.only(top: 50),
-                                itemBuilder: (_, index) {
-                                  return Container(
-                                    padding: const EdgeInsets.all(24),
-                                    margin: const EdgeInsets.only(bottom: 16),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                          color: ColorConstant.primary),
-                                    ),
-                                    child: Text(
-                                      '1212',
-                                      style: TextStyleConstant.publicSansW400(
-                                        fontSize: 20,
-                                        color: ColorConstant.heading,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                    _buildCategoriesView(),
                     Expanded(
                       flex: 7,
                       child: Column(
@@ -282,7 +236,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                                   child: Container(
                                                     height: 32,
                                                     padding: const EdgeInsets
-                                                        .symmetric(
+                                                            .symmetric(
                                                         horizontal: 10),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
@@ -323,6 +277,72 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     )
                   ],
                 ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Expanded _buildCategoriesView() {
+    return Expanded(
+      flex: 3,
+      child: Container(
+        padding: const EdgeInsets.only(
+          top: 30,
+          left: 16,
+          right: 16,
+          bottom: 16,
+        ),
+        margin: const EdgeInsets.only(bottom: 27),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 12),
+              blurRadius: 24,
+              color: ColorConstant.grey919EAB.withOpacity(0.1),
+            ),
+            BoxShadow(
+              blurRadius: 2,
+              color: ColorConstant.grey919EAB.withOpacity(0.16),
+            )
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Choose categories',
+              style: TextStyleConstant.livvicW600(
+                fontSize: 20,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _catalogs.length,
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(top: 50),
+                itemBuilder: (_, index) {
+                  final item = _catalogs[index];
+                  return Container(
+                    padding: const EdgeInsets.all(24),
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: ColorConstant.primary),
+                    ),
+                    child: Text(
+                      '1212',
+                      style: TextStyleConstant.publicSansW400(
+                        fontSize: 20,
+                        color: ColorConstant.heading,
+                      ),
+                    ),
+                  );
+                },
               ),
             )
           ],

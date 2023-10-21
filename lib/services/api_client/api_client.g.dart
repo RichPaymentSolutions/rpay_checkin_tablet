@@ -114,6 +114,80 @@ class _ApiClient implements ApiClient {
     return value;
   }
 
+  @override
+  Future<BaseResponse<List<StaffModel>>?> getStaffs() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>?>(
+        _setStreamType<BaseResponse<List<StaffModel>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/staff/staffs',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data == null
+        ? null
+        : BaseResponse<List<StaffModel>>.fromJson(
+            _result.data!,
+            (json) => json is List<dynamic>
+                ? json
+                    .map<StaffModel>(
+                        (i) => StaffModel.fromJson(i as Map<String, dynamic>))
+                    .toList()
+                : List.empty(),
+          );
+    return value;
+  }
+
+  @override
+  Future<BaseResponse<List<CategoryModel>>?> getCatalogs() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>?>(
+        _setStreamType<BaseResponse<List<CategoryModel>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/catalog/catalog/services',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data == null
+        ? null
+        : BaseResponse<List<CategoryModel>>.fromJson(
+            _result.data!,
+            (json) => json is List<dynamic>
+                ? json
+                    .map<CategoryModel>((i) =>
+                        CategoryModel.fromJson(i as Map<String, dynamic>))
+                    .toList()
+                : List.empty(),
+          );
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

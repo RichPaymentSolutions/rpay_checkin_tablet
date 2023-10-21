@@ -4,6 +4,7 @@ import 'package:rp_checkin/screens/choose_service/views/choose_service_screen.da
 import 'package:rp_checkin/screens/fill_birthday/views/fill_birthday_screen.dart';
 import 'package:rp_checkin/screens/fill_name/views/fill_name_screen.dart';
 import 'package:rp_checkin/screens/fill_phone/views/fill_phone_screen.dart';
+import 'package:rp_checkin/screens/list_staff/views/list_staff_screen.dart';
 import 'package:rp_checkin/screens/login/views/login_screen.dart';
 
 class RoutesManager {
@@ -30,6 +31,9 @@ class RoutesManager {
       case RouteNames.chooseService:
         screen = const ChooseServiceScreen();
         break;
+      case RouteNames.chooseStaff:
+        screen = const ListStaffsScreen();
+        break;
     }
     return MaterialPageRoute(builder: (_) => screen);
   }
@@ -42,4 +46,5 @@ class RouteNames {
   static const fillName = '/fill_name';
   static const fillBirthday = '/fill_birthday';
   static const chooseService = '/choose_service';
+  static const chooseStaff = '/choose_staff';
 }

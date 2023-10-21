@@ -75,8 +75,13 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
       child = SvgPicture.asset('ic_delete'.iconSvg);
       borderColor = ColorConstant.error;
     } else if (title == 'v') {
-      child = SvgPicture.asset('ic_next'.iconSvg);
-      borderColor = ColorConstant.green84C81B;
+      child = SvgPicture.asset(
+        'ic_next'.iconSvg,
+        color: _num.length < 10 ? ColorConstant.grey919EAB : null,
+      );
+      borderColor = _num.length < 10
+          ? ColorConstant.grey919EAB
+          : ColorConstant.green84C81B;
     } else {
       child = Text(
         title,
