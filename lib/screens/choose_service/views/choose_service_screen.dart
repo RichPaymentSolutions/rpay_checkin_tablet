@@ -192,6 +192,31 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
               ],
             ),
           ),
+          SizedBox(
+            height: 50,
+            child: ListView.builder(
+                itemCount: 3,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, index) {
+                  return Container(
+                    height: 50,
+                    width: 100,
+                    margin: const EdgeInsets.only(right: 16),
+                    decoration: BoxDecoration(
+                      border: index == 1
+                          ? const Border(
+                              bottom: BorderSide(
+                                color: ColorConstant.primary,
+                                width: 2,
+                              ),
+                            )
+                          : null,
+                      color: Colors.white,
+                    ),
+                    child: Center(child: Text('Staff $index')),
+                  );
+                }),
+          ),
           Expanded(
             child: _isLoading
                 ? const AppCircularIndicator()
