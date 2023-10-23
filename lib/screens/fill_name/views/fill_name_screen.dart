@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rp_checkin/base/base_screen.dart';
 import 'package:rp_checkin/components/app_form_field.dart';
 import 'package:rp_checkin/components/custom_app_bar.dart';
+import 'package:rp_checkin/helpers/common_helper.dart';
+import 'package:rp_checkin/models/customer/customer_model.dart';
 import 'package:rp_checkin/routes/routes_manager.dart';
+import 'package:rp_checkin/screens/app/app_provider.dart';
 import 'package:rp_checkin/theme/color_constant.dart';
 import 'package:rp_checkin/theme/text_style_constant.dart';
 
@@ -17,37 +21,127 @@ class FillNameScreen extends StatefulWidget {
 }
 
 class _FillNameScreenState extends State<FillNameScreen> {
+  final _txtController = TextEditingController();
+  bool _isValidEmail = true;
+  final _formatList = [
+    '@gmail.com',
+    '@hotgmail.com',
+    '@icloud.com',
+    '@aol.com',
+  ];
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isEmail) {
+      _isValidEmail = false;
+    }
+  }
+
+  _onNext() {
+    if (_txtController.text.isEmpty) {
+      return;
+    }
+    if (widget.isEmail && !_isValidEmail) {
+      return;
+    }
+
+    context.read<AppProvider>().customer?.lastName = _txtController.text;
+    Navigator.of(context).pushNamed(
+        widget.isEmail ? RouteNames.chooseStaff : RouteNames.fillBirthday);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BaseScreen(
-      body: SafeArea(
-        child: Column(
-          children: [
-            CustomAppBar(
-              title: widget.isEmail
-                  ? 'what’s your best email ?'
-                  : 'Please enter your name',
-              onNext: () => Navigator.of(context).pushNamed(widget.isEmail
-                  ? RouteNames.chooseService
-                  : RouteNames.fillBirthday),
-            ),
-            const SizedBox(
-              height: 70,
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 3,
-              child: AppFormField(
-                fillColor: Colors.transparent,
-                textstyle: TextStyleConstant.livvicW500(
-                    fontSize: 32, color: ColorConstant.primary),
-                border: const UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: ColorConstant.primary,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: BaseScreen(
+        body: SafeArea(
+          child: Column(
+            children: [
+              CustomAppBar(
+                title: widget.isEmail
+                    ? 'what’s your best email ?'
+                    : 'Please enter your name',
+                onNext: _onNext,
+                isDisable: _txtController.text.isEmpty || !_isValidEmail,
+              ),
+              const SizedBox(
+                height: 70,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 3,
+                child: AppFormField(
+                  controller: _txtController,
+                  autoFocus: true,
+                  onChanged: (v) {
+                    if (widget.isEmail) {
+                      setState(() {
+                        _isValidEmail = CommonHelper.emailIsValid(v);
+                      });
+                      return;
+                    }
+                    setState(() {});
+                  },
+                  fillColor: Colors.transparent,
+                  textstyle: TextStyleConstant.livvicW500(
+                      fontSize: 32, color: ColorConstant.primary),
+                  border: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: ColorConstant.primary,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 50,
+              ),
+              SizedBox(
+                height: 54,
+                child: ListView.builder(
+                  itemCount: _formatList.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (_, index) {
+                    return InkWell(
+                      onTap: () {
+                        if (_txtController.text.isEmpty) {
+                          _txtController.text = _formatList[index];
+                          setState(() {
+                            _isValidEmail = true;
+                          });
+                          return;
+                        }
+                        final l = _txtController.text.split('@');
+                        _txtController.text = l.first + _formatList[index];
+                        setState(() {
+                          _isValidEmail = true;
+                        });
+                      },
+                      child: Container(
+                        height: 54,
+                        width: 203,
+                        margin: const EdgeInsets.only(right: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(27),
+                          border: Border.all(
+                            color: ColorConstant.grey919EAB.withOpacity(0.24),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            _formatList[index],
+                            style: TextStyleConstant.livvicW400(
+                                fontSize: 24, color: ColorConstant.gray707585),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

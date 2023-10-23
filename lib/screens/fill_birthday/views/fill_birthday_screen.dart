@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rp_checkin/base/base_screen.dart';
 import 'package:rp_checkin/components/app_button.dart';
 import 'package:rp_checkin/components/custom_app_bar.dart';
 import 'package:rp_checkin/routes/routes_manager.dart';
+import 'package:rp_checkin/screens/app/app_provider.dart';
 import 'package:rp_checkin/theme/color_constant.dart';
 import 'package:rp_checkin/theme/text_style_constant.dart';
 
@@ -30,6 +32,13 @@ class _FillBirthdayScreenState extends State<FillBirthdayScreen> {
     'Dec',
   ];
   int _selectedMonth = 0;
+  int _selectedDay = 0;
+  _onNext() {
+    context.read<AppProvider>().customer?.birthday =
+        '${_selectedDay + 1}/${_selectedMonth + 1}/2020';
+    Navigator.of(context).pushNamed(RouteNames.fillName, arguments: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
@@ -38,8 +47,7 @@ class _FillBirthdayScreenState extends State<FillBirthdayScreen> {
           children: [
             CustomAppBar(
               title: 'What’s your birthday?',
-              onNext: () => Navigator.of(context)
-                  .pushNamed(RouteNames.fillName, arguments: true),
+              onNext: _onNext,
             ),
             Expanded(
               child: _buildPickerView(context),
@@ -85,6 +93,11 @@ class _FillBirthdayScreenState extends State<FillBirthdayScreen> {
                 },
               ),
               initialItem: _selectedMonth,
+              onChanged: (v) {
+                setState(() {
+                  _selectedMonth = v;
+                });
+              },
             ),
           ),
           const SizedBox(
@@ -105,7 +118,12 @@ class _FillBirthdayScreenState extends State<FillBirthdayScreen> {
                   );
                 },
               ),
-              initialItem: _selectedMonth,
+              initialItem: _selectedDay,
+              onChanged: (v) {
+                setState(() {
+                  _selectedDay = v;
+                });
+              },
             ),
           ),
         ],

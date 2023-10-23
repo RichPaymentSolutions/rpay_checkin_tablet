@@ -1,6 +1,7 @@
 import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:rp_checkin/base/base_screen.dart';
 import 'package:rp_checkin/components/app_button.dart';
 import 'package:rp_checkin/components/app_circular_indicator.dart';
@@ -8,6 +9,8 @@ import 'package:rp_checkin/components/app_form_field.dart';
 import 'package:rp_checkin/components/custom_app_bar.dart';
 import 'package:rp_checkin/extensions/string_ext.dart';
 import 'package:rp_checkin/models/category/category_model.dart';
+import 'package:rp_checkin/models/staff/staff_model.dart';
+import 'package:rp_checkin/screens/app/app_provider.dart';
 import 'package:rp_checkin/screens/list_staff/views/list_staff_dialog.dart';
 import 'package:rp_checkin/services/api_client/api_client.dart';
 import 'package:rp_checkin/services/di/di.dart';
@@ -27,8 +30,10 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   List<CategoryModel> _catalogsOrigin = [];
   final _searchTxtController = TextEditingController();
   bool _isLoading = true;
+  late StaffModel _staffSelected;
   @override
   void initState() {
+    _staffSelected = context.read<AppProvider>().listStaffSelected.first;
     _getCatalogs();
     super.initState();
   }
@@ -192,28 +197,87 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
               ],
             ),
           ),
-          SizedBox(
-            height: 50,
+          Container(
+            height: 60,
+            margin: const EdgeInsets.only(
+              top: 10,
+              left: 27,
+              right: 32,
+            ),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: ColorConstant.grey919EAB.withOpacity(0.16),
+                ),
+              ),
+            ),
             child: ListView.builder(
-                itemCount: 3,
+                itemCount: context.read<AppProvider>().listStaffSelected.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (_, index) {
-                  return Container(
-                    height: 50,
-                    width: 100,
-                    margin: const EdgeInsets.only(right: 16),
-                    decoration: BoxDecoration(
-                      border: index == 1
-                          ? const Border(
-                              bottom: BorderSide(
-                                color: ColorConstant.primary,
-                                width: 2,
-                              ),
-                            )
-                          : null,
-                      color: Colors.white,
+                  final item =
+                      context.read<AppProvider>().listStaffSelected[index];
+                  return InkWell(
+                    onTap: () {
+                      setState(() {
+                        _staffSelected = item;
+                      });
+                    },
+                    child: Container(
+                      height: 60,
+                      padding: const EdgeInsets.only(left: 22),
+                      margin: const EdgeInsets.only(right: 16),
+                      decoration: BoxDecoration(
+                        boxShadow: _staffSelected.staffId == item.staffId
+                            ? [
+                                BoxShadow(
+                                  blurRadius: 10,
+                                  color: ColorConstant.grey919EAB
+                                      .withOpacity(0.16),
+                                )
+                              ]
+                            : null,
+                        border: _staffSelected.staffId == item.staffId
+                            ? const Border(
+                                bottom: BorderSide(
+                                  color: ColorConstant.primary,
+                                  width: 2,
+                                ),
+                              )
+                            : null,
+                        color: _staffSelected.staffId == item.staffId
+                            ? Colors.white
+                            : Colors.transparent,
+                      ),
+                      child: Row(children: [
+                        Text(
+                          item.name ?? '',
+                          style: TextStyleConstant.publicSansW400(fontSize: 16),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(
+                              () {
+                                context
+                                    .read<AppProvider>()
+                                    .listStaffSelected
+                                    .removeAt(index);
+                              },
+                            );
+                            if (context
+                                .read<AppProvider>()
+                                .listStaffSelected
+                                .isEmpty) {
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: ColorConstant.grey919EAB,
+                          ),
+                        ),
+                      ]),
                     ),
-                    child: Center(child: Text('Staff $index')),
                   );
                 }),
           ),
@@ -280,87 +344,57 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (_, index) {
                                 final item = cata.products![index];
-                                return Container(
-                                  height: 62,
-                                  decoration: DottedDecoration(
-                                    color: ColorConstant.grey919EAB
-                                        .withOpacity(0.24),
-                                    strokeWidth: 0.5,
-                                    linePosition: LinePosition.bottom,
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 22),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 24,
-                                        height: 24,
-                                        child: Checkbox(
-                                          value: true,
-                                          activeColor: ColorConstant.primary,
-                                          onChanged: (bool? value) {
-                                            // This is where we update the state when the checkbox is tapped
-                                            // setState(() {
-                                            //   isChecked = value!;
-                                            // });
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          item.productName ?? '',
-                                          style:
-                                              TextStyleConstant.publicSansW400(
-                                            fontSize: 16,
+                                return InkWell(
+                                  onTap: () {
+                                    if (_staffSelected
+                                        .checkServiceContain(item)) {
+                                      _staffSelected.removeService(item);
+                                    } else {
+                                      _staffSelected.addService(item);
+                                    }
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    height: 62,
+                                    decoration: DottedDecoration(
+                                      color: ColorConstant.grey919EAB
+                                          .withOpacity(0.24),
+                                      strokeWidth: 0.5,
+                                      linePosition: LinePosition.bottom,
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 22),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 24,
+                                          height: 24,
+                                          child: Checkbox(
+                                            value: _staffSelected
+                                                .checkServiceContain(item),
+                                            activeColor: ColorConstant.primary,
+                                            onChanged: (bool? value) {
+                                              // This is where we update the state when the checkbox is tapped
+                                              // setState(() {
+                                              //   isChecked = value!;
+                                              // });
+                                            },
                                           ),
                                         ),
-                                      ),
-                                      InkWell(
-                                        onTap: () => showModalBottomSheet(
-                                          context: context,
-                                          useRootNavigator: true,
-                                          isScrollControlled: true,
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              topRight: Radius.circular(20),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            item.productName ?? '',
+                                            style: TextStyleConstant
+                                                .publicSansW400(
+                                              fontSize: 16,
                                             ),
                                           ),
-                                          builder: (_) =>
-                                              const FractionallySizedBox(
-                                            heightFactor: 0.9,
-                                            child: ListStaffDialog(),
-                                          ),
                                         ),
-                                        child: Container(
-                                          height: 32,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                              color: ColorConstant.primary
-                                                  .withOpacity(0.5),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                'Staff Abc',
-                                                style: TextStyleConstant
-                                                    .publicSansW500(
-                                                        color: ColorConstant
-                                                            .primary),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 );
                               },

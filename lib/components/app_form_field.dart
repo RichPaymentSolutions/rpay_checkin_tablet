@@ -24,6 +24,7 @@ class AppFormField extends StatelessWidget {
     this.textAlign = TextAlign.start,
     this.inputFormatters,
     this.readOnly = false,
+    this.autoFocus = false,
   });
   final int? maxLines;
   final String? hint;
@@ -43,6 +44,7 @@ class AppFormField extends StatelessWidget {
   final TextAlign textAlign;
   final List<TextInputFormatter>? inputFormatters;
   final bool readOnly;
+  final bool autoFocus;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -56,6 +58,7 @@ class AppFormField extends StatelessWidget {
       onFieldSubmitted: onFieldSubmitted,
       inputFormatters: inputFormatters,
       readOnly: readOnly,
+      autofocus: autoFocus,
       style: textstyle ??
           TextStyleConstant.livvicW400(
             fontSize: 16,

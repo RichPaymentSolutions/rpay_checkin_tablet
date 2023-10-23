@@ -10,9 +10,11 @@ class CustomAppBar extends StatelessWidget {
     super.key,
     this.onNext,
     this.title,
+    this.isDisable = false,
   });
   final Function()? onNext;
   final String? title;
+  final bool isDisable;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -78,7 +80,9 @@ class CustomAppBar extends StatelessWidget {
               width: 160,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: ColorConstant.primary,
+                color: isDisable
+                    ? ColorConstant.grey919EAB
+                    : ColorConstant.primary,
                 boxShadow: [
                   BoxShadow(
                     offset: const Offset(0, 8),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:rp_checkin/components/app_circular_indicator.dart';
 import 'package:rp_checkin/components/custom_app_bar.dart';
 import 'package:rp_checkin/extensions/string_ext.dart';
 import 'package:rp_checkin/models/staff/staff_model.dart';
 import 'package:rp_checkin/routes/routes_manager.dart';
+import 'package:rp_checkin/screens/app/app_provider.dart';
 import 'package:rp_checkin/services/api_client/api_client.dart';
 import 'package:rp_checkin/services/di/di.dart';
 import 'package:rp_checkin/theme/color_constant.dart';
@@ -66,6 +68,17 @@ class _ListStaffsScreenState extends State<ListStaffsScreen> {
                           final item = _listStaffs[index];
                           return InkWell(
                             onTap: () {
+                              if (context
+                                  .read<AppProvider>()
+                                  .listStaffSelected
+                                  .where((e) => e.staffId == item.staffId)
+                                  .isEmpty) {
+                                context
+                                    .read<AppProvider>()
+                                    .listStaffSelected
+                                    .add(item);
+                              }
+
                               Navigator.of(context)
                                   .pushNamed(RouteNames.chooseService);
                             },

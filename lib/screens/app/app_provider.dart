@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rp_checkin/models/customer/customer_model.dart';
+import 'package:rp_checkin/models/staff/staff_model.dart';
 
 class AppProvider with ChangeNotifier {
-  int _count = 0;
-
-  int get count => _count;
-
-  void increment() {
-    _count++;
-    notifyListeners();
-  }
+  CustomerModel? customer;
+  List<StaffModel> listStaffSelected = [];
 }

@@ -2,13 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:rp_checkin/base/base_screen.dart';
 import 'package:rp_checkin/components/app_progress_indicator.dart';
 import 'package:rp_checkin/components/g_image.dart';
 import 'package:rp_checkin/components/radio_button.dart';
 import 'package:rp_checkin/extensions/string_ext.dart';
 import 'package:rp_checkin/helpers/common_helper.dart';
+import 'package:rp_checkin/models/customer/customer_model.dart';
 import 'package:rp_checkin/routes/routes_manager.dart';
+import 'package:rp_checkin/screens/app/app_provider.dart';
 import 'package:rp_checkin/screens/fill_phone/widgets/number_keyboar_view.dart';
 import 'package:rp_checkin/services/api_client/api_client.dart';
 import 'package:rp_checkin/services/di/di.dart';
@@ -30,10 +33,12 @@ class _FillPhoneScreenState extends State<FillPhoneScreen> {
     final res = await injector.get<ApiClient>().getCustomerInfo(phone);
     CommonHelper.hideLoading();
     if (res != null) {
-      if (res.data == null) {
+      if (res.data?.customerId == null) {
+        context.read<AppProvider>().customer = CustomerModel();
         Navigator.of(context).pushNamed(RouteNames.fillName);
         return;
       }
+      context.read<AppProvider>().customer = res.data;
       Navigator.of(context).pushNamed(RouteNames.chooseStaff);
     }
   }

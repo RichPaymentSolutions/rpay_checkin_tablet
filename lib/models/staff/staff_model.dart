@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:rp_checkin/models/product/product_model.dart';
 part 'staff_model.g.dart';
 
 @JsonSerializable()
@@ -25,6 +26,22 @@ class StaffModel {
   String? phone;
   int? hardSalary;
   String? staffId;
+  List<ProductModel>? services;
+
+  bool checkServiceContain(ProductModel service) {
+    return (services ?? [])
+        .where((e) => e.productId == service.productId)
+        .isNotEmpty;
+  }
+
+  removeService(ProductModel service) {
+    (services ?? []).removeWhere((e) => e.productId == service.productId);
+  }
+
+  addService(ProductModel service) {
+    services ??= [];
+    services!.add(service);
+  }
 
   StaffModel(
       {this.staffColor,
