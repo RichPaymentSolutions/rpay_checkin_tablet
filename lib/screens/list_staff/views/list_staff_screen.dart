@@ -40,77 +40,97 @@ class _ListStaffsScreenState extends State<ListStaffsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            CustomAppBar(
-              title: 'Add staff',
-            ),
-            Expanded(
-              child: _isLoading
-                  ? const AppCircularIndicator()
-                  : SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.75,
-                      child: GridView.builder(
-                        itemCount: _listStaffs.length,
-                        padding: const EdgeInsets.only(
-                          top: 70,
-                          bottom: 30,
-                        ),
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
-                          childAspectRatio: 1.7,
-                          mainAxisSpacing: 24,
-                          crossAxisSpacing: 24,
-                        ),
-                        itemBuilder: (_, index) {
-                          final item = _listStaffs[index];
-                          return InkWell(
-                            onTap: () {
-                              if (context
-                                  .read<AppProvider>()
-                                  .listStaffSelected
-                                  .where((e) => e.staffId == item.staffId)
-                                  .isEmpty) {
-                                context
+        child: Consumer<AppProvider>(
+          builder: (context, app, child) => Column(
+            children: [
+              const CustomAppBar(
+                title: 'Add staff',
+                isHideNext: true,
+              ),
+              Expanded(
+                child: _isLoading
+                    ? const AppCircularIndicator()
+                    : SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.75,
+                        child: GridView.builder(
+                          itemCount: _listStaffs.length,
+                          padding: const EdgeInsets.only(
+                            top: 70,
+                            bottom: 30,
+                          ),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            childAspectRatio: 1.7,
+                            mainAxisSpacing: 24,
+                            crossAxisSpacing: 24,
+                          ),
+                          itemBuilder: (_, index) {
+                            final item = _listStaffs[index];
+                            return InkWell(
+                              onTap: () {
+                                if (context
                                     .read<AppProvider>()
                                     .listStaffSelected
-                                    .add(item);
-                              }
+                                    .where((e) => e.staffId == item.staffId)
+                                    .isEmpty) {
+                                  context.read<AppProvider>().addStaff(item);
+                                }
 
-                              Navigator.of(context)
-                                  .pushNamed(RouteNames.chooseService);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: ColorConstant.heading.withOpacity(0.7),
+                                Navigator.of(context)
+                                    .pushNamed(RouteNames.chooseService);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: context
+                                            .read<AppProvider>()
+                                            .listStaffIdSelected
+                                            .contains(item.staffId)
+                                        ? ColorConstant.primary0E73E4
+                                        : ColorConstant.heading
+                                            .withOpacity(0.7),
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      'ic_user'.iconSvg,
+                                      color: context
+                                              .read<AppProvider>()
+                                              .listStaffIdSelected
+                                              .contains(item.staffId)
+                                          ? ColorConstant.primary
+                                          : null,
+                                    ),
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    Text(
+                                      item.name ?? '',
+                                      style: TextStyleConstant.publicSansW500(
+                                        fontSize: 20,
+                                        color: context
+                                                .read<AppProvider>()
+                                                .listStaffIdSelected
+                                                .contains(item.staffId)
+                                            ? ColorConstant.primary
+                                            : ColorConstant.heading,
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset('ic_user'.iconSvg),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  Text(
-                                    item.name ?? '',
-                                    style: TextStyleConstant.publicSansW500(
-                                      fontSize: 20,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

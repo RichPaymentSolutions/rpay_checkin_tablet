@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:rp_checkin/services/api_client/api_client.dart';
 import 'package:rp_checkin/services/di/di.dart';
 import 'package:rp_checkin/services/shared_manager/shared_manager.dart';
 
@@ -30,63 +31,66 @@ class AuthInterceptor extends InterceptorsWrapper {
     super.onRequest(options, handler);
   }
 
-  // @override
-  // void onResponse(Response response, ResponseInterceptorHandler handler) async {
-  //   if (response.data is Map) {
-  //     if (response.data['messageKey'] == MessageKey.tokenIsExpired.title) {
-  //       await refreshToken();
-  //       final retry = await _retry(response.requestOptions, dio);
-  //       return handler.resolve(retry);
-  //     } else if (response.data['messageKey'] ==
-  //             MessageKey.refreshTokenIsExpired.title ||
-  //         response.data['messageKey'] == 'Unauthorized') {
-  //       if (!_isExpired) {
-  //         _isExpired = true;
-  //         MyAlertDialog.show(
-  //             message: MessageKey.refreshTokenIsExpired.message,
-  //             onFunction: () {
-  //               AppUtils.logout();
-  //               _isExpired = false;
-  //             });
-  //       }
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) async {
+    if (response.data is Map) {
+      if (response.data['messageKey'] == 'TokenIsExpired') {
+        print('refreshToken');
+        await refreshToken();
+        final retry = await _retry(response.requestOptions, dio);
+        return handler.resolve(retry);
+      } else if (response.data['messageKey'] == 'RefreshTokenIsExpired' ||
+          response.data['messageKey'] == 'Unauthorized') {
+        if (!_isExpired) {
+          _isExpired = true;
+          // MyAlertDialog.show(
+          //     message: MessageKey.refreshTokenIsExpired.message,
+          //     onFunction: () {
+          //       AppUtils.logout();
+          //       _isExpired = false;
+          //     });
+        }
 
-  //       response.requestOptions.extra["tokenErrorType"] = 'token expired';
-  //       final error = DioError(
-  //           requestOptions: response.requestOptions, type: DioErrorType.other);
+        response.requestOptions.extra["tokenErrorType"] = 'token expired';
+        final error = DioException(
+            requestOptions: response.requestOptions,
+            type: DioExceptionType.unknown);
 
-  //       return handler.reject(error);
-  //     }
-  //   }
+        return handler.reject(error);
+      }
+    }
 
-  //   super.onResponse(response, handler);
-  // }
+    super.onResponse(response, handler);
+  }
 
-  // Future<Response<dynamic>> _retry(
-  //     RequestOptions requestOptions, Dio dio) async {
-  //   final options = Options(
-  //     method: requestOptions.method,
-  //     headers: requestOptions.headers,
-  //   );
-  //   final result = await dio.request<dynamic>(
-  //       '${requestOptions.baseUrl}${requestOptions.path}',
-  //       data: requestOptions.data,
-  //       queryParameters: requestOptions.queryParameters,
-  //       options: options);
-  //   return result;
-  // }
+  Future<Response<dynamic>> _retry(
+      RequestOptions requestOptions, Dio dio) async {
+    final options = Options(
+      method: requestOptions.method,
+      headers: requestOptions.headers,
+    );
+    final result = await dio.request<dynamic>(
+        '${requestOptions.baseUrl}${requestOptions.path}',
+        data: requestOptions.data,
+        queryParameters: requestOptions.queryParameters,
+        options: options);
+    return result;
+  }
 
-  // Future<void> refreshToken() async {
-  //   final user = await injector.get<DataPrefs>().getUser();
-  //   if (user == null) {
-  //     return;
-  //   }
-  //   final data = {
-  //     "refreshToken": user.refreshToken,
-  //   };
-  //   final res = await injector.get<AuthApiClient>().refreshToken(data);
-  //   if (res != null && res.data != null) {
-  //     user.accessToken = res.data;
-  //     await injector.get<DataPrefs>().saveUser(user);
-  //   }
-  // }
+  Future<void> refreshToken() async {
+    final refreshToken =
+        injector.get<SharedManager>().getString(SharedKey.refreshToken.name);
+    if (refreshToken == null) {
+      return;
+    }
+    final data = {
+      "refreshToken": refreshToken,
+    };
+    final res = await injector.get<ApiClient>().refreshToken(data);
+    if (res != null && res.data != null) {
+      injector
+          .get<SharedManager>()
+          .setString(SharedKey.accessToken.name, res.data!);
+    }
+  }
 }

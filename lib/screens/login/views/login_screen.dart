@@ -70,6 +70,9 @@ class _LoginScreenState extends State<LoginScreen> {
     injector
         .get<SharedManager>()
         .setString(SharedKey.tenantId.name, res.data!.tenantId!);
+    injector
+        .get<SharedManager>()
+        .setString(SharedKey.refreshToken.name, res.data!.refreshToken!);
     _getBusinessInfo();
   }
 

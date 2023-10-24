@@ -188,6 +188,38 @@ class _ApiClient implements ApiClient {
     return value;
   }
 
+  @override
+  Future<BaseResponse<String>?> refreshToken(dynamic data) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = data;
+    final _result = await _dio.fetch<Map<String, dynamic>?>(
+        _setStreamType<BaseResponse<String>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/auth/refresh-token',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data == null
+        ? null
+        : BaseResponse<String>.fromJson(
+            _result.data!,
+            (json) => json as String,
+          );
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

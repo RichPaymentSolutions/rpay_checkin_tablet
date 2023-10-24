@@ -11,10 +11,12 @@ class CustomAppBar extends StatelessWidget {
     this.onNext,
     this.title,
     this.isDisable = false,
+    this.isHideNext = false,
   });
   final Function()? onNext;
   final String? title;
   final bool isDisable;
+  final bool isHideNext;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -73,42 +75,44 @@ class CustomAppBar extends StatelessWidget {
                   width: 150,
                   height: 75,
                 ),
-          InkWell(
-            onTap: onNext,
-            child: Container(
-              height: 54,
-              width: 160,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: isDisable
-                    ? ColorConstant.grey919EAB
-                    : ColorConstant.primary,
-                boxShadow: [
-                  BoxShadow(
-                    offset: const Offset(0, 8),
-                    blurRadius: 16,
-                    color: ColorConstant.primary03228F.withOpacity(0.24),
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset('ic_arrow_right'.iconSvg),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'OK',
-                    style: TextStyleConstant.livvicW500(
-                      fontSize: 24,
-                      color: Colors.white,
+          isHideNext
+              ? const SizedBox.shrink()
+              : InkWell(
+                  onTap: onNext,
+                  child: Container(
+                    height: 54,
+                    width: 160,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: isDisable
+                          ? ColorConstant.grey919EAB
+                          : ColorConstant.primary,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: const Offset(0, 8),
+                          blurRadius: 16,
+                          color: ColorConstant.primary03228F.withOpacity(0.24),
+                        ),
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset('ic_arrow_right'.iconSvg),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'OK',
+                          style: TextStyleConstant.livvicW500(
+                            fontSize: 24,
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
         ],
       ),
     );
