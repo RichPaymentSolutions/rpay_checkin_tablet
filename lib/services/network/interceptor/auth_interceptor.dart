@@ -69,8 +69,7 @@ class AuthInterceptor extends InterceptorsWrapper {
       method: requestOptions.method,
       headers: requestOptions.headers,
     );
-    final result = await dio.request<dynamic>(
-        '${requestOptions.baseUrl}${requestOptions.path}',
+    final result = await dio.request<dynamic>('${requestOptions.path}',
         data: requestOptions.data,
         queryParameters: requestOptions.queryParameters,
         options: options);

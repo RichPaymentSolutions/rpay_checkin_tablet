@@ -84,6 +84,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
           children: [
             CustomAppBar(
               title: 'Please Choose Your Service',
+              onNext: () => context.read<AppProvider>().checkin(context),
             ),
             Expanded(
               child: Container(

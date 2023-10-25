@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:rp_checkin/models/product/product_model.dart';
 part 'staff_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class StaffModel {
   StaffColorModel? staffColor;
   int? cleanFee;

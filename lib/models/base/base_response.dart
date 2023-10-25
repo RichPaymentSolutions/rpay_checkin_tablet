@@ -11,6 +11,7 @@ class BaseResponse<T> {
   String? message;
   int? statusCode;
   String? messageKey;
+  bool? success;
 
   BaseResponse({
     this.statusCode,
@@ -18,6 +19,7 @@ class BaseResponse<T> {
     this.status,
     this.message,
     this.messageKey,
+    this.success,
   });
 
   factory BaseResponse.fromJson(
