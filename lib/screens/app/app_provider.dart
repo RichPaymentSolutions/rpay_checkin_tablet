@@ -42,6 +42,7 @@ class AppProvider with ChangeNotifier {
 
   checkin(BuildContext context) async {
     CommonHelper.showLoading(context);
+    final d = CommonHelper.getStartEndDate();
     final l = listStaffSelected
         .where((e) => e.services != null && e.services!.isNotEmpty)
         .toList();
@@ -49,11 +50,11 @@ class AppProvider with ChangeNotifier {
       "birthday": customer?.birthday,
       "customerName": customer?.lastName,
       "email": customer?.email,
-      "endDate": "1698253199999",
+      "endDate": d.item2,
       "firstName": customer?.firstName,
       "lastName": customer?.lastName,
       "phone": customer?.phone,
-      "startDate": "1698166800000",
+      "startDate": d.item1,
       "staffList": l.map((e) => e.toJson()).toList()
     };
     final res = await injector.get<ApiClient>().checkin(data);

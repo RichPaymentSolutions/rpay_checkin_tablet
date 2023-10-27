@@ -5,6 +5,7 @@ enum SharedKey {
   refreshToken,
   businessName,
   tenantId,
+  timezone,
 }
 
 class SharedManager {

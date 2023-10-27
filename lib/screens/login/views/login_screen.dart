@@ -85,6 +85,9 @@ class _LoginScreenState extends State<LoginScreen> {
       injector
           .get<SharedManager>()
           .setString(SharedKey.businessName.name, res.data!.businessName!);
+      injector
+          .get<SharedManager>()
+          .setString(SharedKey.timezone.name, res.data!.timezone!);
       Navigator.of(context).pushNamed(RouteNames.fillPhone);
     }
   }
