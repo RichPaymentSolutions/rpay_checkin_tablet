@@ -5,9 +5,11 @@ import 'package:rp_checkin/routes/routes_manager.dart';
 import 'package:rp_checkin/screens/app/app_provider.dart';
 import 'package:rp_checkin/services/di/di.dart';
 import 'package:rp_checkin/services/shared_manager/shared_manager.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
   await DependencyInjection.inject();
 
   SystemChrome.setPreferredOrientations([

@@ -76,9 +76,11 @@ class CustomAppBar extends StatelessWidget {
                   height: 75,
                 ),
           isHideNext
-              ? const SizedBox.shrink()
+              ? Container(
+                  width: 160,
+                )
               : InkWell(
-                  onTap: onNext,
+                  onTap: isDisable ? null : onNext,
                   child: Container(
                     height: 54,
                     width: 160,

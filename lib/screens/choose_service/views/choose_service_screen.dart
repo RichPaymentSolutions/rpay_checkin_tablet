@@ -85,6 +85,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
             CustomAppBar(
               title: 'Please Choose Your Service',
               onNext: () => context.read<AppProvider>().checkin(context),
+              isDisable: !context.read<AppProvider>().checkStaffValid(),
             ),
             Expanded(
               child: Container(

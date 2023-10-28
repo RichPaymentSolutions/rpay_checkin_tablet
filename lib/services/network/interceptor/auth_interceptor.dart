@@ -14,7 +14,7 @@ class AuthInterceptor extends InterceptorsWrapper {
         injector.get<SharedManager>().getString(SharedKey.accessToken.name);
     String? tenantId =
         injector.get<SharedManager>().getString(SharedKey.tenantId.name);
-
+    print(injector.get<SharedManager>().getString(SharedKey.refreshToken.name));
     if (token != null) {
       options.headers['authorizer'] = token;
       options.headers['x-tenant-id'] = tenantId;

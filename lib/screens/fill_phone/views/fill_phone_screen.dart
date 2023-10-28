@@ -32,9 +32,11 @@ class _FillPhoneScreenState extends State<FillPhoneScreen> {
     CommonHelper.showLoading(context);
     final res = await injector.get<ApiClient>().getCustomerInfo(phone);
     CommonHelper.hideLoading();
+    context.read<AppProvider>().clearData();
     if (res != null) {
       if (res.data?.customerId == null) {
         context.read<AppProvider>().customer = CustomerModel();
+        context.read<AppProvider>().customer?.phone = phone;
         Navigator.of(context).pushNamed(RouteNames.fillName);
         return;
       }

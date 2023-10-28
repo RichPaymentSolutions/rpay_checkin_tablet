@@ -35,6 +35,12 @@ class AppProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool checkStaffValid() {
+    return listStaffSelected
+        .where((e) => (e.services ?? []).isNotEmpty)
+        .isNotEmpty;
+  }
+
   chooseStaff(int index) {
     staffSelected = listStaffSelected[index];
     notifyListeners();
