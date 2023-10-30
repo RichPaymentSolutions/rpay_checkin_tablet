@@ -95,6 +95,7 @@ class _FillPhoneScreenState extends State<FillPhoneScreen> {
                                 children: [
                                   RadioButton(
                                     value: '',
+                                    groupValue: '',
                                   ),
                                   Expanded(
                                     child: Text(

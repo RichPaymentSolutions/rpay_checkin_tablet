@@ -37,8 +37,8 @@ class AuthInterceptor extends InterceptorsWrapper {
       if (response.data['messageKey'] == 'TokenIsExpired') {
         print('refreshToken');
         await refreshToken();
-        final retry = await _retry(response.requestOptions, dio);
-        return handler.resolve(retry);
+        // final retry = await _retry(response.requestOptions, dio);
+        // return handler.resolve(retry);
       } else if (response.data['messageKey'] == 'RefreshTokenIsExpired' ||
           response.data['messageKey'] == 'Unauthorized') {
         if (!_isExpired) {
