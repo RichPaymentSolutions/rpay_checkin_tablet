@@ -25,7 +25,7 @@ abstract class ApiClient {
   Future<BaseResponse<List<StaffModel>>?> getStaffs();
   @GET('/catalog/catalog/services')
   Future<BaseResponse<List<CategoryModel>>?> getCatalogs();
-  @POST('/auth/refresh-token')
+  @POST('/auth/auth/refresh-token')
   Future<BaseResponse<String>?> refreshToken(@Body() data);
   @POST('/pos/checkin')
   Future<BaseResponse?> checkin(@Body() data);

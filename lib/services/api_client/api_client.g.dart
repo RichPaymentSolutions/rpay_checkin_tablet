@@ -202,7 +202,7 @@ class _ApiClient implements ApiClient {
     )
             .compose(
               _dio.options,
-              '/auth/refresh-token',
+              '/auth/auth/refresh-token',
               queryParameters: queryParameters,
               data: _data,
             )
