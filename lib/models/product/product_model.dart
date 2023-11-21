@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:rp_checkin/models/category/category_model.dart';
 part 'product_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ProductModel {
   int? orderIndex;
   CatColorModel? catColor;

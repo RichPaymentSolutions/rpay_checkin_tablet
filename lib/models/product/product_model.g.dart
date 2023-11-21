@@ -36,7 +36,7 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel()
 Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
     <String, dynamic>{
       'orderIndex': instance.orderIndex,
-      'catColor': instance.catColor,
+      'catColor': instance.catColor?.toJson(),
       'supplyFee': instance.supplyFee,
       'status': instance.status,
       'visibility': instance.visibility,
@@ -48,10 +48,10 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'updatedAt': instance.updatedAt,
       'catName': instance.catName,
       'sK': instance.sK,
-      'productColor': instance.productColor,
+      'productColor': instance.productColor?.toJson(),
       'price': instance.price,
       'pK': instance.pK,
       'productName': instance.productName,
       'productId': instance.productId,
-      'categories': instance.categories,
+      'categories': instance.categories?.map((e) => e.toJson()).toList(),
     };

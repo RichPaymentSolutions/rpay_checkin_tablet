@@ -26,7 +26,7 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CategoryModelToJson(CategoryModel instance) =>
     <String, dynamic>{
       'orderIndex': instance.orderIndex,
-      'catColor': instance.catColor,
+      'catColor': instance.catColor?.toJson(),
       'data': instance.data,
       'updatedAt': instance.updatedAt,
       'catName': instance.catName,
@@ -34,7 +34,7 @@ Map<String, dynamic> _$CategoryModelToJson(CategoryModel instance) =>
       'sK': instance.sK,
       'pK': instance.pK,
       'catId': instance.catId,
-      'products': instance.products,
+      'products': instance.products?.map((e) => e.toJson()).toList(),
     };
 
 CatColorModel _$CatColorModelFromJson(Map<String, dynamic> json) =>
