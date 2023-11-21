@@ -77,9 +77,7 @@ class _FillNameScreenState extends State<FillNameScreen> {
                 height: 70,
               ),
               SizedBox(
-                width: widget.isEmail
-                    ? MediaQuery.of(context).size.width / 3
-                    : MediaQuery.of(context).size.width / 2,
+                width: MediaQuery.of(context).size.width / 2,
                 child: widget.isEmail
                     ? AppFormField(
                         controller: _txtController,

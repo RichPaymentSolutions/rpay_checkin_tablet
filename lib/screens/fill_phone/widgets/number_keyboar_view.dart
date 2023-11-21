@@ -131,11 +131,11 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
 extension NumberTextExt on String {
   String format() {
     if (length <= 3) {
-      return '+1 ($this)';
+      return '($this)';
     }
     if (length <= 6) {
-      return '+1 (${substring(0, 3)}) ${substring(3, length)}';
+      return '(${substring(0, 3)}) ${substring(3, length)}';
     }
-    return '+1 (${substring(0, 3)}) ${substring(3, 6)} - ${substring(6, length)}';
+    return '(${substring(0, 3)}) ${substring(3, 6)} - ${substring(6, length)}';
   }
 }
