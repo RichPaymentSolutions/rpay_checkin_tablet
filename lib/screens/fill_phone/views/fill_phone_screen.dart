@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:rp_checkin/base/base_screen.dart';
 import 'package:rp_checkin/components/app_progress_indicator.dart';
 import 'package:rp_checkin/components/g_image.dart';
+import 'package:rp_checkin/components/logout_dialog.dart';
 import 'package:rp_checkin/components/radio_button.dart';
 import 'package:rp_checkin/extensions/string_ext.dart';
 import 'package:rp_checkin/helpers/common_helper.dart';
@@ -170,10 +171,9 @@ class _FillPhoneScreenState extends State<FillPhoneScreen> {
                             right: 0,
                             child: InkWell(
                               onTap: () {
-                                injector.get<SharedManager>().clear();
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                  RouteNames.login,
-                                  (route) => false,
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => const LogoutDialog(),
                                 );
                               },
                               child: Container(

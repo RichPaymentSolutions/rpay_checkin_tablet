@@ -53,9 +53,9 @@ class AppProvider with ChangeNotifier {
         .where((e) => e.services != null && e.services!.isNotEmpty)
         .toList();
     final data = {
-      "birthday": customer?.birthday,
+      "birthday": customer?.birthday ?? '',
       "customerName": customer?.lastName,
-      "email": customer?.email,
+      "email": customer?.email ?? '',
       "endDate": d.item2,
       "firstName": customer?.firstName,
       "lastName": customer?.lastName,

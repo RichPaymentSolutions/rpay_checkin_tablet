@@ -55,6 +55,8 @@ class _FillBirthdayScreenState extends State<FillBirthdayScreen> {
             Padding(
               padding: const EdgeInsets.only(bottom: 40),
               child: AppButton(
+                onTap: () => Navigator.of(context)
+                    .pushNamed(RouteNames.fillName, arguments: true),
                 width: 260,
                 height: 54,
                 titleText: 'Skip',

@@ -9,7 +9,6 @@ import 'package:rp_checkin/components/app_form_field.dart';
 import 'package:rp_checkin/components/custom_app_bar.dart';
 import 'package:rp_checkin/extensions/string_ext.dart';
 import 'package:rp_checkin/models/category/category_model.dart';
-import 'package:rp_checkin/models/staff/staff_model.dart';
 import 'package:rp_checkin/screens/app/app_provider.dart';
 import 'package:rp_checkin/services/api_client/api_client.dart';
 import 'package:rp_checkin/services/di/di.dart';
@@ -182,8 +181,104 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 11,
+                ],
+              ),
+            ),
+            Container(
+              height: 60,
+              margin: const EdgeInsets.only(
+                top: 10,
+                left: 27,
+                right: 32,
+              ),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: ColorConstant.grey919EAB.withOpacity(0.16),
+                  ),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: context
+                            .read<AppProvider>()
+                            .listStaffSelected
+                            .length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (_, index) {
+                          final item = context
+                              .read<AppProvider>()
+                              .listStaffSelected[index];
+                          return InkWell(
+                            onTap: () {
+                              context.read<AppProvider>().chooseStaff(index);
+                            },
+                            child: Container(
+                              height: 60,
+                              padding: const EdgeInsets.only(left: 22),
+                              margin: const EdgeInsets.only(right: 16),
+                              decoration: BoxDecoration(
+                                boxShadow: context
+                                            .read<AppProvider>()
+                                            .staffSelected
+                                            .staffId ==
+                                        item.staffId
+                                    ? [
+                                        BoxShadow(
+                                          blurRadius: 10,
+                                          color: ColorConstant.grey919EAB
+                                              .withOpacity(0.16),
+                                        )
+                                      ]
+                                    : null,
+                                border: context
+                                            .read<AppProvider>()
+                                            .staffSelected
+                                            .staffId ==
+                                        item.staffId
+                                    ? const Border(
+                                        bottom: BorderSide(
+                                          color: ColorConstant.primary,
+                                          width: 2,
+                                        ),
+                                      )
+                                    : null,
+                                color: context
+                                            .read<AppProvider>()
+                                            .staffSelected
+                                            .staffId ==
+                                        item.staffId
+                                    ? Colors.white
+                                    : Colors.transparent,
+                              ),
+                              child: Row(children: [
+                                Text(
+                                  item.name ?? '',
+                                  style: TextStyleConstant.publicSansW400(
+                                      fontSize: 16),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    context.read<AppProvider>().remove(index);
+
+                                    if (context
+                                        .read<AppProvider>()
+                                        .listStaffSelected
+                                        .isEmpty) {
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
+                                  icon: const Icon(
+                                    Icons.close,
+                                    color: ColorConstant.grey919EAB,
+                                  ),
+                                ),
+                              ]),
+                            ),
+                          );
+                        }),
                   ),
                   AppButton(
                     onTap: Navigator.of(context).pop,
@@ -210,96 +305,6 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                   )
                 ],
               ),
-            ),
-            Container(
-              height: 60,
-              margin: const EdgeInsets.only(
-                top: 10,
-                left: 27,
-                right: 32,
-              ),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: ColorConstant.grey919EAB.withOpacity(0.16),
-                  ),
-                ),
-              ),
-              child: ListView.builder(
-                  itemCount:
-                      context.read<AppProvider>().listStaffSelected.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (_, index) {
-                    final item =
-                        context.read<AppProvider>().listStaffSelected[index];
-                    return InkWell(
-                      onTap: () {
-                        context.read<AppProvider>().chooseStaff(index);
-                      },
-                      child: Container(
-                        height: 60,
-                        padding: const EdgeInsets.only(left: 22),
-                        margin: const EdgeInsets.only(right: 16),
-                        decoration: BoxDecoration(
-                          boxShadow: context
-                                      .read<AppProvider>()
-                                      .staffSelected
-                                      .staffId ==
-                                  item.staffId
-                              ? [
-                                  BoxShadow(
-                                    blurRadius: 10,
-                                    color: ColorConstant.grey919EAB
-                                        .withOpacity(0.16),
-                                  )
-                                ]
-                              : null,
-                          border: context
-                                      .read<AppProvider>()
-                                      .staffSelected
-                                      .staffId ==
-                                  item.staffId
-                              ? const Border(
-                                  bottom: BorderSide(
-                                    color: ColorConstant.primary,
-                                    width: 2,
-                                  ),
-                                )
-                              : null,
-                          color: context
-                                      .read<AppProvider>()
-                                      .staffSelected
-                                      .staffId ==
-                                  item.staffId
-                              ? Colors.white
-                              : Colors.transparent,
-                        ),
-                        child: Row(children: [
-                          Text(
-                            item.name ?? '',
-                            style:
-                                TextStyleConstant.publicSansW400(fontSize: 16),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              context.read<AppProvider>().remove(index);
-
-                              if (context
-                                  .read<AppProvider>()
-                                  .listStaffSelected
-                                  .isEmpty) {
-                                Navigator.of(context).pop();
-                              }
-                            },
-                            icon: const Icon(
-                              Icons.close,
-                              color: ColorConstant.grey919EAB,
-                            ),
-                          ),
-                        ]),
-                      ),
-                    );
-                  }),
             ),
             Expanded(
               child: _isLoading

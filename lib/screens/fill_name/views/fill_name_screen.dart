@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rp_checkin/base/base_screen.dart';
+import 'package:rp_checkin/components/app_button.dart';
 import 'package:rp_checkin/components/app_form_field.dart';
 import 'package:rp_checkin/components/custom_app_bar.dart';
 import 'package:rp_checkin/helpers/common_helper.dart';
@@ -76,31 +77,33 @@ class _FillNameScreenState extends State<FillNameScreen> {
               const SizedBox(
                 height: 70,
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
-                child: widget.isEmail
-                    ? AppFormField(
-                        controller: _txtController,
-                        autoFocus: true,
-                        onChanged: (v) {
-                          if (widget.isEmail) {
-                            setState(() {
-                              _isValidEmail = CommonHelper.emailIsValid(v);
-                            });
-                            return;
-                          }
-                          setState(() {});
-                        },
-                        fillColor: Colors.transparent,
-                        textstyle: TextStyleConstant.livvicW500(
-                            fontSize: 32, color: ColorConstant.primary),
-                        border: const UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: ColorConstant.primary,
+              Expanded(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: widget.isEmail
+                      ? AppFormField(
+                          controller: _txtController,
+                          autoFocus: true,
+                          onChanged: (v) {
+                            if (widget.isEmail) {
+                              setState(() {
+                                _isValidEmail = CommonHelper.emailIsValid(v);
+                              });
+                              return;
+                            }
+                            setState(() {});
+                          },
+                          fillColor: Colors.transparent,
+                          textstyle: TextStyleConstant.livvicW500(
+                              fontSize: 32, color: ColorConstant.primary),
+                          border: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: ColorConstant.primary,
+                            ),
                           ),
-                        ),
-                      )
-                    : _buildFullNameView(),
+                        )
+                      : _buildFullNameView(),
+                ),
               ),
               const SizedBox(
                 height: 50,
@@ -151,6 +154,24 @@ class _FillNameScreenState extends State<FillNameScreen> {
                       );
                     },
                   ),
+                ),
+              Spacer(),
+              if (widget.isEmail == true)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: AppButton(
+                    onTap: () =>
+                        Navigator.of(context).pushNamed(RouteNames.chooseStaff),
+                    width: 260,
+                    height: 54,
+                    titleText: 'Skip',
+                    color: Colors.transparent,
+                    titleStyle: TextStyleConstant.livvicW500(
+                      color: ColorConstant.grey637281,
+                      fontSize: 24,
+                    ),
+                    hideShadow: true,
+                  ),
                 )
             ],
           ),
@@ -164,7 +185,7 @@ class _FillNameScreenState extends State<FillNameScreen> {
       children: [
         Expanded(
           child: AppFormField(
-            hint: 'Fist name',
+            hint: 'First name',
             controller: _firstNameController,
             fillColor: Colors.transparent,
             textstyle: TextStyleConstant.livvicW500(
