@@ -14,7 +14,9 @@ class CategoryModel {
   String? pK;
   String? catId;
   List<ProductModel>? products;
-  CategoryModel();
+  CategoryModel({
+    this.catName,
+  });
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$CategoryModelFromJson(json);
   Map<String, dynamic> toJson() => _$CategoryModelToJson(this);

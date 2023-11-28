@@ -75,6 +75,18 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     setState(() {});
   }
 
+  _chooseCata(int index) {
+    if (index == 0) {
+      _catalogs = _catalogsOrigin;
+      _cateIndexSelected = index;
+      setState(() {});
+      return;
+    }
+    _catalogs = [_catalogsOrigin[index - 1]];
+    _cateIndexSelected = index;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
@@ -489,47 +501,48 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
               child: _isLoading
                   ? const AppCircularIndicator()
                   : ListView.builder(
-                      itemCount: _categories.length,
+                      itemCount: _categories.length + 1,
                       shrinkWrap: true,
                       padding: const EdgeInsets.only(top: 50),
                       itemBuilder: (_, index) {
-                        final item = _categories[index];
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              _cateIndexSelected = index;
-                            });
-                            itemScrollController.scrollTo(
-                              index: index,
-                              duration: const Duration(milliseconds: 200),
-                            );
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(24),
-                            margin: const EdgeInsets.only(bottom: 16),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: _cateIndexSelected == index
-                                    ? ColorConstant.primary
-                                    : ColorConstant.heading.withOpacity(0.7),
-                              ),
-                            ),
-                            child: Text(
-                              item.catName ?? '',
-                              style: TextStyleConstant.publicSansW400(
-                                fontSize: 20,
-                                color: _cateIndexSelected == index
-                                    ? ColorConstant.primary
-                                    : ColorConstant.heading,
-                              ),
-                            ),
-                          ),
-                        );
+                        final item = index == 0
+                            ? CategoryModel(catName: 'All')
+                            : _categories[index - 1];
+                        if (index == 0) {
+                          return _buildItemCateView(0, item);
+                        }
+                        return _buildItemCateView(index, item);
                       },
                     ),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  InkWell _buildItemCateView(int index, CategoryModel item) {
+    return InkWell(
+      onTap: () => _chooseCata(index),
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: _cateIndexSelected == index
+                ? ColorConstant.primary
+                : ColorConstant.heading.withOpacity(0.7),
+          ),
+        ),
+        child: Text(
+          item.catName ?? '',
+          style: TextStyleConstant.publicSansW400(
+            fontSize: 20,
+            color: _cateIndexSelected == index
+                ? ColorConstant.primary
+                : ColorConstant.heading,
+          ),
         ),
       ),
     );

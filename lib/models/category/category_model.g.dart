@@ -7,14 +7,15 @@ part of 'category_model.dart';
 // **************************************************************************
 
 CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) =>
-    CategoryModel()
+    CategoryModel(
+      catName: json['catName'] as String?,
+    )
       ..orderIndex = json['orderIndex'] as int?
       ..catColor = json['catColor'] == null
           ? null
           : CatColorModel.fromJson(json['catColor'] as Map<String, dynamic>)
       ..data = json['data'] as String?
       ..updatedAt = json['updatedAt'] as String?
-      ..catName = json['catName'] as String?
       ..createdAt = json['createdAt'] as String?
       ..sK = json['sK'] as String?
       ..pK = json['pK'] as String?
