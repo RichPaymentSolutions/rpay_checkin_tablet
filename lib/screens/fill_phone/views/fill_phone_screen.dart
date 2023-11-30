@@ -29,6 +29,7 @@ class FillPhoneScreen extends StatefulWidget {
 
 class _FillPhoneScreenState extends State<FillPhoneScreen> {
   bool _isLoading = false;
+  bool _isCheck = true;
   _getCustomerInfo(String phone) async {
     CommonHelper.showLoading(context);
     final res = await injector.get<ApiClient>().getCustomerInfo(phone);
@@ -91,23 +92,36 @@ class _FillPhoneScreenState extends State<FillPhoneScreen> {
                             ),
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RadioButton(
-                                    value: '',
-                                    groupValue: '',
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      'By checking this box and clicking OK, I agree to receive RichPOS as well as "Business name" notifications via auto text! Unsubscribe anytime and still participate in RichPOS',
-                                      style: TextStyleConstant.livvicW500(
-                                        fontSize: 16,
-                                        color: ColorConstant.grey637281,
-                                      ),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _isCheck = !_isCheck;
+                                  });
+                                },
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Checkbox(
+                                      value: _isCheck,
+                                      onChanged: (v) {
+                                        print(v);
+
+                                        setState(() {
+                                          _isCheck = !_isCheck;
+                                        });
+                                      },
                                     ),
-                                  )
-                                ],
+                                    Expanded(
+                                      child: Text(
+                                        'By checking this box and clicking OK, I agree to receive RichPOS as well as "${injector.get<SharedManager>().getString(SharedKey.businessName.name) ?? ''}" notifications via auto text! Unsubscribe anytime and still participate in RichPOS',
+                                        style: TextStyleConstant.livvicW500(
+                                          fontSize: 16,
+                                          color: ColorConstant.grey637281,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             )
                           ],

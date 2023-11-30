@@ -93,3 +93,12 @@ class Tuple<T1, T2> {
   /// Creates a new tuple value with the specified items.
   const Tuple(this.item1, this.item2);
 }
+
+extension StringExtension on String {
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
+      .split(' ')
+      .map((str) => str.toCapitalized())
+      .join(' ');
+}
