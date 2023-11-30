@@ -176,6 +176,7 @@ class _FillPhoneScreenState extends State<FillPhoneScreen> {
                                 ),
                                 NumberKeyboardView(
                                   onNext: _getCustomerInfo,
+                                  isDisble: !_isCheck,
                                 ),
                               ],
                             ),

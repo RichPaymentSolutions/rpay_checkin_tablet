@@ -60,22 +60,20 @@ class CommonHelper {
         injector.get<SharedManager>().getString(SharedKey.timezone.name) ?? '');
     final l = tz.TZDateTime.from(DateTime.now(), detroit);
 
-    var startDay =
-        getBeginInDay(l).subtract(Duration(hours: l.timeZoneOffset.inHours));
+    var startDay = getBeginInDay(l);
 
-    var endDay =
-        getTheEndInDay(l).subtract(Duration(hours: l.timeZoneOffset.inHours));
-    if (DateTime.now().timeZoneOffset.inHours > 0) {
-      startDay =
-          startDay.add(Duration(hours: DateTime.now().timeZoneOffset.inHours));
-      endDay =
-          endDay.add(Duration(hours: DateTime.now().timeZoneOffset.inHours));
-    } else {
-      startDay = startDay
-          .subtract(Duration(hours: DateTime.now().timeZoneOffset.inHours));
-      endDay = endDay
-          .subtract(Duration(hours: DateTime.now().timeZoneOffset.inHours));
-    }
+    var endDay = getTheEndInDay(l);
+    // if (DateTime.now().timeZoneOffset.inHours > 0) {
+    //   startDay =
+    //       startDay.add(Duration(hours: DateTime.now().timeZoneOffset.inHours));
+    //   endDay =
+    //       endDay.add(Duration(hours: DateTime.now().timeZoneOffset.inHours));
+    // } else {
+    //   startDay = startDay
+    //       .subtract(Duration(hours: DateTime.now().timeZoneOffset.inHours));
+    //   endDay = endDay
+    //       .subtract(Duration(hours: DateTime.now().timeZoneOffset.inHours));
+    // }
     return Tuple(
       startDay.millisecondsSinceEpoch ~/ 1000,
       endDay.millisecondsSinceEpoch ~/ 1000,

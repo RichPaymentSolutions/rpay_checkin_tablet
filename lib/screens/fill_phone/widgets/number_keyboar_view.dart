@@ -9,8 +9,10 @@ class NumberKeyboardView extends StatefulWidget {
   const NumberKeyboardView({
     super.key,
     this.onNext,
+    this.isDisble = false,
   });
   final Function(String)? onNext;
+  final bool isDisble;
   @override
   State<NumberKeyboardView> createState() => _NumberKeyboardViewState();
 }
@@ -77,9 +79,11 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
     } else if (title == 'v') {
       child = SvgPicture.asset(
         'ic_next'.iconSvg,
-        color: _num.length < 10 ? ColorConstant.grey919EAB : null,
+        color: _num.length < 10 || widget.isDisble
+            ? ColorConstant.grey919EAB
+            : null,
       );
-      borderColor = _num.length < 10
+      borderColor = _num.length < 10 || widget.isDisble
           ? ColorConstant.grey919EAB
           : ColorConstant.green84C81B;
     } else {
@@ -114,7 +118,7 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
         _num = _num.substring(0, _num.length - 1);
       }
     } else if (title == 'v') {
-      if (_num.length != 10) {
+      if (_num.length != 10 || widget.isDisble) {
         return;
       }
       widget.onNext?.call(_num);

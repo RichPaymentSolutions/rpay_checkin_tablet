@@ -23,10 +23,13 @@ class _SuccessCheckinScreenState extends State<SuccessCheckinScreen> {
   void initState() {
     super.initState();
     _controllerCenter =
-        ConfettiController(duration: const Duration(seconds: 3));
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _controllerCenter.play();
-    });
+        ConfettiController(duration: const Duration(seconds: 10));
+    _controllerCenter.play();
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   Future.delayed(const Duration(milliseconds: 500), () {
+    //     _controllerCenter.play();
+    //   });
+    // });
     Future.delayed(
       const Duration(seconds: 3),
       () {
