@@ -75,8 +75,8 @@ class CommonHelper {
     //       .subtract(Duration(hours: DateTime.now().timeZoneOffset.inHours));
     // }
     return Tuple(
-      startDay.millisecondsSinceEpoch ~/ 1000,
-      endDay.millisecondsSinceEpoch ~/ 1000,
+      startDay.millisecondsSinceEpoch,
+      endDay.millisecondsSinceEpoch,
     );
   }
 }

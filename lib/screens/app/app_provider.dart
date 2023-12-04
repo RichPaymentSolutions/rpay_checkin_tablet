@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:rp_checkin/helpers/common_helper.dart';
 import 'package:rp_checkin/models/category/category_model.dart';
@@ -55,6 +57,7 @@ class AppProvider with ChangeNotifier {
     final data = {
       "birthday": customer?.birthday ?? '',
       "customerName": customer?.lastName,
+      'customerId': customer?.customerId ?? '',
       "email": customer?.email ?? '',
       "endDate": d.item2,
       "firstName": customer?.firstName,
@@ -63,6 +66,7 @@ class AppProvider with ChangeNotifier {
       "startDate": d.item1,
       "staffList": l.map((e) => e.toJson()).toList()
     };
+    log(data.toString());
     final res = await injector.get<ApiClient>().checkin(data);
     CommonHelper.hideLoading();
     if (res != null && res.success == true) {
