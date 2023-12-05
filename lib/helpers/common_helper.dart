@@ -59,7 +59,6 @@ class CommonHelper {
     var detroit = tz.getLocation(
         injector.get<SharedManager>().getString(SharedKey.timezone.name) ?? '');
     final l = tz.TZDateTime.from(DateTime.now(), detroit);
-
     var startDay = getBeginInDay(l);
 
     var endDay = getTheEndInDay(l);

@@ -17,8 +17,8 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) =>
       ..data = json['data'] as String?
       ..updatedAt = json['updatedAt'] as String?
       ..createdAt = json['createdAt'] as String?
-      ..sK = json['sK'] as String?
-      ..pK = json['pK'] as String?
+      ..SK = json['SK'] as String?
+      ..PK = json['PK'] as String?
       ..catId = json['catId'] as String?
       ..products = (json['products'] as List<dynamic>?)
           ?.map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
@@ -32,8 +32,8 @@ Map<String, dynamic> _$CategoryModelToJson(CategoryModel instance) =>
       'updatedAt': instance.updatedAt,
       'catName': instance.catName,
       'createdAt': instance.createdAt,
-      'sK': instance.sK,
-      'pK': instance.pK,
+      'SK': instance.SK,
+      'PK': instance.PK,
       'catId': instance.catId,
       'products': instance.products?.map((e) => e.toJson()).toList(),
     };

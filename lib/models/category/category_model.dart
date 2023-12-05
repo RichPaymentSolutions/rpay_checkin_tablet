@@ -10,8 +10,8 @@ class CategoryModel {
   String? updatedAt;
   String? catName;
   String? createdAt;
-  String? sK;
-  String? pK;
+  String? SK;
+  String? PK;
   String? catId;
   List<ProductModel>? products;
   CategoryModel({

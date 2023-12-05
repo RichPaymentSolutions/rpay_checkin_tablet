@@ -10,6 +10,9 @@ import 'package:rp_checkin/models/staff/staff_model.dart';
 import 'package:rp_checkin/routes/routes_manager.dart';
 import 'package:rp_checkin/services/api_client/api_client.dart';
 import 'package:rp_checkin/services/di/di.dart';
+import 'package:rp_checkin/services/shared_manager/shared_manager.dart';
+import 'package:uuid/uuid.dart';
+import 'package:uuid/v4.dart';
 
 class AppProvider with ChangeNotifier {
   CustomerModel? customer;
@@ -59,12 +62,22 @@ class AppProvider with ChangeNotifier {
       "customerName": customer?.lastName,
       'customerId': customer?.customerId ?? '',
       "email": customer?.email ?? '',
-      "endDate": d.item2,
+      "endDate": d.item2.toString(),
       "firstName": customer?.firstName,
       "lastName": customer?.lastName,
       "phone": customer?.phone,
-      "startDate": d.item1,
-      "staffList": l.map((e) => e.toJson()).toList()
+      "startDate": d.item1.toString(),
+      "timezone":
+          injector.get<SharedManager>().getString(SharedKey.timezone.name) ??
+              'US/Central',
+      "staffList": l.map((e) {
+        final m = e.toJson();
+        m['staffName'] = e.name;
+        m['staffPK'] = e.PK;
+        m['services'] = e.services?.map((e) => e.toJsonData()).toList();
+        return m;
+      }).toList(),
+      "_id": const Uuid().v4(),
     };
     log(data.toString());
     final res = await injector.get<ApiClient>().checkin(data);

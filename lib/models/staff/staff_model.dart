@@ -19,13 +19,14 @@ class StaffModel {
   String? data;
   String? updatedAt;
   bool? tipChargeCash;
-  String? sK;
+  String? SK;
   int? commission;
   String? passcode;
-  String? pK;
+  String? PK;
   String? phone;
   int? hardSalary;
   String? staffId;
+  @JsonKey(includeToJson: false)
   List<ProductModel>? services;
 
   bool checkServiceContain(ProductModel service) {
@@ -59,10 +60,10 @@ class StaffModel {
       this.data,
       this.updatedAt,
       this.tipChargeCash,
-      this.sK,
+      this.SK,
       this.commission,
       this.passcode,
-      this.pK,
+      this.PK,
       this.phone,
       this.hardSalary,
       this.staffId});

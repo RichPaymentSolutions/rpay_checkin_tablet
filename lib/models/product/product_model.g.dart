@@ -21,12 +21,12 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel()
   ..data = json['data'] as String?
   ..updatedAt = json['updatedAt'] as String?
   ..catName = json['catName'] as String?
-  ..sK = json['sK'] as String?
+  ..SK = json['SK'] as String?
   ..productColor = json['productColor'] == null
       ? null
       : CatColorModel.fromJson(json['productColor'] as Map<String, dynamic>)
   ..price = (json['price'] as num?)?.toDouble()
-  ..pK = json['pK'] as String?
+  ..PK = json['PK'] as String?
   ..productName = json['productName'] as String?
   ..productId = json['productId'] as String?
   ..categories = (json['categories'] as List<dynamic>?)
@@ -47,10 +47,10 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'data': instance.data,
       'updatedAt': instance.updatedAt,
       'catName': instance.catName,
-      'sK': instance.sK,
+      'SK': instance.SK,
       'productColor': instance.productColor?.toJson(),
       'price': instance.price,
-      'pK': instance.pK,
+      'PK': instance.PK,
       'productName': instance.productName,
       'productId': instance.productId,
       'categories': instance.categories?.map((e) => e.toJson()).toList(),

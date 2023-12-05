@@ -16,10 +16,10 @@ class ProductModel {
   String? data;
   String? updatedAt;
   String? catName;
-  String? sK;
+  String? SK;
   CatColorModel? productColor;
   double? price;
-  String? pK;
+  String? PK;
   String? productName;
   String? productId;
   List<CategoryModel>? categories;
@@ -27,4 +27,17 @@ class ProductModel {
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
       _$ProductModelFromJson(json);
   Map<String, dynamic> toJson() => _$ProductModelToJson(this);
+
+  Map<String, dynamic> toJsonData() {
+    return {
+      "catId": categories?.first.catId,
+      "catName": catName,
+      "serviceId": productId,
+      "serviceName": productName,
+      "count": 1,
+      "servicePrice": price,
+      "serviceSupplyFee": supplyFee,
+      "serviceQuantity": 1
+    };
+  }
 }
