@@ -30,49 +30,29 @@ class CommonHelper {
   }
 
   static DateTime getTheEndInDay(
-    DateTime date, {
-    bool isToTimeZone = false,
-  }) {
+    DateTime date,
+  ) {
     var detroit = tz.getLocation(
         injector.get<SharedManager>().getString(SharedKey.timezone.name) ?? '');
-    final l = tz.TZDateTime.from(date, detroit);
-    if (isToTimeZone) {
-      date = l;
-    }
-    return DateTime(date.year, date.month, date.day, 23, 59);
+    final l =
+        tz.TZDateTime(detroit, date.year, date.month, date.day, 23, 59, 59);
+
+    return l;
   }
 
-  static DateTime getBeginInDay(
-    DateTime date, {
-    bool isToTimeZone = false,
-  }) {
+  static DateTime getBeginInDay(DateTime date) {
     var detroit = tz.getLocation(
         injector.get<SharedManager>().getString(SharedKey.timezone.name) ?? '');
-    final l = tz.TZDateTime.from(date, detroit);
-    if (isToTimeZone) {
-      date = l;
-    }
-    return DateTime(date.year, date.month, date.day);
+    var l = tz.TZDateTime(detroit, date.year, date.month, date.day);
+
+    return l;
   }
 
   static Tuple<int, int> getStartEndDate() {
-    var detroit = tz.getLocation(
-        injector.get<SharedManager>().getString(SharedKey.timezone.name) ?? '');
-    final l = tz.TZDateTime.from(DateTime.now(), detroit);
-    var startDay = getBeginInDay(l);
+    var startDay = getBeginInDay(DateTime.now());
 
-    var endDay = getTheEndInDay(l);
-    // if (DateTime.now().timeZoneOffset.inHours > 0) {
-    //   startDay =
-    //       startDay.add(Duration(hours: DateTime.now().timeZoneOffset.inHours));
-    //   endDay =
-    //       endDay.add(Duration(hours: DateTime.now().timeZoneOffset.inHours));
-    // } else {
-    //   startDay = startDay
-    //       .subtract(Duration(hours: DateTime.now().timeZoneOffset.inHours));
-    //   endDay = endDay
-    //       .subtract(Duration(hours: DateTime.now().timeZoneOffset.inHours));
-    // }
+    var endDay = getTheEndInDay(DateTime.now());
+
     return Tuple(
       startDay.millisecondsSinceEpoch,
       endDay.millisecondsSinceEpoch,
