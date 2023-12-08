@@ -111,6 +111,9 @@ class _ListStaffsScreenState extends State<ListStaffsScreen> {
                                     ),
                                     Text(
                                       item.name ?? '',
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyleConstant.publicSansW500(
                                         fontSize: 20,
                                         color: context

@@ -34,18 +34,17 @@ class CommonHelper {
   ) {
     var detroit = tz.getLocation(
         injector.get<SharedManager>().getString(SharedKey.timezone.name) ?? '');
-    final l =
-        tz.TZDateTime(detroit, date.year, date.month, date.day, 23, 59, 59);
+    var l = tz.TZDateTime.now(detroit);
 
-    return l;
+    return tz.TZDateTime(detroit, l.year, l.month, l.day, 23, 59, 59);
   }
 
   static DateTime getBeginInDay(DateTime date) {
     var detroit = tz.getLocation(
         injector.get<SharedManager>().getString(SharedKey.timezone.name) ?? '');
-    var l = tz.TZDateTime(detroit, date.year, date.month, date.day);
+    var l = tz.TZDateTime.now(detroit);
 
-    return l;
+    return tz.TZDateTime(detroit, l.year, l.month, l.day);
   }
 
   static Tuple<int, int> getStartEndDate() {
