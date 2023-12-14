@@ -9,11 +9,22 @@ GetIt injector = GetIt.instance;
 
 class DependencyInjection {
   static Future<void> inject() async {
-    final _dio = await DioClient.setup(
-      baseUrl: EnvConfig.baseUrl,
-    );
-    injector.registerSingleton<ApiClient>(ApiClient(_dio));
     final sharedPreferences = await SharedPreferences.getInstance();
     injector.registerSingleton(SharedManager(sharedPreferences));
+    if (injector.get<SharedManager>().getString(SharedKey.env.name) == null) {
+      injector.get<SharedManager>().setString(SharedKey.env.name, 'PROD');
+    }
+    final _dio = await DioClient.setup(
+      baseUrl: EnvConfig.baseUrl(),
+    );
+    injector.registerSingleton<ApiClient>(ApiClient(_dio));
+  }
+
+  static setupDio() async {
+    injector.unregister<ApiClient>();
+    final _dio = await DioClient.setup(
+      baseUrl: EnvConfig.baseUrl(),
+    );
+    injector.registerSingleton<ApiClient>(ApiClient(_dio));
   }
 }

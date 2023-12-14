@@ -66,6 +66,7 @@ class CustomAppBar extends StatelessWidget {
           title != null
               ? Text(
                   title!,
+                  textAlign: TextAlign.center,
                   style: TextStyleConstant.publicSansW600(
                     fontSize: 32,
                   ),

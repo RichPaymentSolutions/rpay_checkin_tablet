@@ -197,6 +197,8 @@ class _FillNameScreenState extends State<FillNameScreen> {
             ),
             onChanged: (v) {
               _firstNameController.text = v.toTitleCase();
+              _firstNameController.selection = TextSelection.fromPosition(
+                  TextPosition(offset: _firstNameController.text.length));
               setState(() {});
             },
           ),
@@ -218,6 +220,8 @@ class _FillNameScreenState extends State<FillNameScreen> {
             ),
             onChanged: (v) {
               _lastNameController.text = v.toTitleCase();
+              _lastNameController.selection = TextSelection.fromPosition(
+                  TextPosition(offset: _lastNameController.text.length));
               setState(() {});
             },
           ),

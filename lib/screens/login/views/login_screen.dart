@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailTxtController = TextEditingController();
   final _passTxtController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  int _count = 0;
   @override
   void initState() {
     super.initState();
@@ -90,6 +92,58 @@ class _LoginScreenState extends State<LoginScreen> {
           .setString(SharedKey.timezone.name, res.data!.timezone!);
       Navigator.of(context).pushNamed(RouteNames.fillPhone);
     }
+  }
+
+  _showBottomSheet() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) => CupertinoActionSheet(
+        title: const Text('Choose Environment'),
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: Navigator.of(context).pop,
+          isDestructiveAction: true,
+          child: const Text('Cancel'),
+        ),
+        actions: [
+          CupertinoActionSheetAction(
+            onPressed: () {
+              injector
+                  .get<SharedManager>()
+                  .setString(SharedKey.env.name, 'PROD');
+              DependencyInjection.setupDio();
+              Navigator.of(context).pop();
+            },
+            child: const Text(
+              'PROD',
+            ),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              injector
+                  .get<SharedManager>()
+                  .setString(SharedKey.env.name, 'STAG');
+              DependencyInjection.setupDio();
+              Navigator.of(context).pop();
+            },
+            child: const Text(
+              'STAG',
+            ),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              injector
+                  .get<SharedManager>()
+                  .setString(SharedKey.env.name, 'DEV');
+              DependencyInjection.setupDio();
+              Navigator.of(context).pop();
+            },
+            child: const Text(
+              'DEV',
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   @override
@@ -192,9 +246,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 10,
                       ),
-                      Text(
-                        'Login',
-                        style: TextStyleConstant.publicSansW600(fontSize: 32),
+                      InkWell(
+                        onTap: () {
+                          _count++;
+                          if (_count == 7) {
+                            _showBottomSheet();
+                            _count = 0;
+                          }
+                        },
+                        child: Text(
+                          'Login',
+                          style: TextStyleConstant.publicSansW600(fontSize: 32),
+                        ),
                       ),
                       const SizedBox(
                         height: 8,

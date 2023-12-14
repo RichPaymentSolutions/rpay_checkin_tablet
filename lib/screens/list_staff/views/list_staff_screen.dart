@@ -43,8 +43,10 @@ class _ListStaffsScreenState extends State<ListStaffsScreen> {
         child: Consumer<AppProvider>(
           builder: (context, app, child) => Column(
             children: [
-              const CustomAppBar(
-                title: 'Add staff',
+              CustomAppBar(
+                title: context.read<AppProvider>().customer?.customerId != null
+                    ? 'Wellcome Back ${context.read<AppProvider>().customer?.firstName ?? ''}!\nPlease choose your Technician'
+                    : 'Please choose your Technician',
                 isHideNext: true,
               ),
               Expanded(

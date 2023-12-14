@@ -6,6 +6,7 @@ enum SharedKey {
   businessName,
   tenantId,
   timezone,
+  env,
 }
 
 class SharedManager {
