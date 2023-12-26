@@ -1,4 +1,4 @@
-package com.example.rp_checkin
+package com.richgroup.checkin
 
 import io.flutter.embedding.android.FlutterActivity
 
