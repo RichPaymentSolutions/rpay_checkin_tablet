@@ -35,8 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     if (kDebugMode) {
-      _emailTxtController.text = 'richdev';
-      _passTxtController.text = '12345678x@X';
+      _emailTxtController.text = 'stage';
+      _passTxtController.text = 'a12345678';
     }
   }
 

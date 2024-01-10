@@ -32,7 +32,7 @@ class _ListStaffsScreenState extends State<ListStaffsScreen> {
     final res = await injector.get<ApiClient>().getStaffs();
     setState(() {
       _isLoading = false;
-      _listStaffs = res?.data ?? [];
+      _listStaffs = (res?.data ?? []).where((e) => e.role != 'Owner').toList();
     });
   }
 
