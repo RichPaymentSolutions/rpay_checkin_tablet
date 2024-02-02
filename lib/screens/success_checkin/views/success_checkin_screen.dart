@@ -11,8 +11,11 @@ import 'package:rp_checkin/theme/color_constant.dart';
 import 'package:rp_checkin/theme/text_style_constant.dart';
 
 class SuccessCheckinScreen extends StatefulWidget {
-  const SuccessCheckinScreen({super.key});
-
+  const SuccessCheckinScreen({
+    super.key,
+    this.point,
+  });
+  final double? point;
   @override
   State<SuccessCheckinScreen> createState() => _SuccessCheckinScreenState();
 }
@@ -25,11 +28,7 @@ class _SuccessCheckinScreenState extends State<SuccessCheckinScreen> {
     _controllerCenter =
         ConfettiController(duration: const Duration(seconds: 10));
     _controllerCenter.play();
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   Future.delayed(const Duration(milliseconds: 500), () {
-    //     _controllerCenter.play();
-    //   });
-    // });
+
     Future.delayed(
       const Duration(seconds: 3),
       () {
@@ -68,6 +67,31 @@ class _SuccessCheckinScreenState extends State<SuccessCheckinScreen> {
                 ),
                 Text(
                   'Check in Successful !',
+                  style: TextStyleConstant.livvicW500(
+                    fontSize: 45,
+                    color: ColorConstant.green009747,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 1,
+                  width: MediaQuery.of(context).size.width / 2,
+                  color: ColorConstant.grey637281,
+                ),
+                Text(
+                  'Your points',
+                  style: TextStyleConstant.livvicW500(
+                    fontSize: 35,
+                    color: ColorConstant.grey637281,
+                  ),
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Text(
+                  '${(widget.point ?? 0).toInt()}',
                   style: TextStyleConstant.livvicW500(
                     fontSize: 45,
                     color: ColorConstant.green009747,

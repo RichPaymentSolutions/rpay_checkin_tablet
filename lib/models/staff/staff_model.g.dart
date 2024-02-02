@@ -61,7 +61,6 @@ Map<String, dynamic> _$StaffModelToJson(StaffModel instance) =>
       'phone': instance.phone,
       'hardSalary': instance.hardSalary,
       'staffId': instance.staffId,
-      'services': instance.services?.map((e) => e.toJson()).toList(),
     };
 
 StaffColorModel _$StaffColorModelFromJson(Map<String, dynamic> json) =>

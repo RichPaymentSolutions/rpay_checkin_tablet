@@ -36,7 +36,13 @@ class RoutesManager {
         screen = const ListStaffsScreen();
         break;
       case RouteNames.successCheckin:
-        screen = const SuccessCheckinScreen();
+        double? points;
+        if (settings.arguments != null) {
+          points = settings.arguments as double;
+        }
+        screen = SuccessCheckinScreen(
+          point: points,
+        );
         break;
     }
     return MaterialPageRoute(builder: (_) => screen);

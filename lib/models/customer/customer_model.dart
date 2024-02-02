@@ -9,6 +9,9 @@ class CustomerModel {
   String? firstName;
   String? lastName;
   String? birthday;
+  double? points;
+  String? name;
+
   CustomerModel();
   factory CustomerModel.fromJson(Map<String, dynamic> json) =>
       _$CustomerModelFromJson(json);

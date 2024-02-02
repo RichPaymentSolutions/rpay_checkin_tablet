@@ -13,7 +13,9 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
       ..email = json['email'] as String?
       ..firstName = json['firstName'] as String?
       ..lastName = json['lastName'] as String?
-      ..birthday = json['birthday'] as String?;
+      ..birthday = json['birthday'] as String?
+      ..points = (json['points'] as num?)?.toDouble()
+      ..name = json['name'] as String?;
 
 Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
     <String, dynamic>{
@@ -23,4 +25,6 @@ Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'birthday': instance.birthday,
+      'points': instance.points,
+      'name': instance.name,
     };

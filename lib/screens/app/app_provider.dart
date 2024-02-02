@@ -59,12 +59,12 @@ class AppProvider with ChangeNotifier {
         .toList();
     final data = {
       "birthday": customer?.birthday ?? '',
-      "customerName": customer?.lastName,
+      // "customerName": customer?.lastName,
       'customerId': customer?.customerId ?? '',
       "email": customer?.email ?? '',
       "endDate": d.item2.toString(),
-      "firstName": customer?.firstName,
-      "lastName": customer?.lastName,
+      "firstName": customer?.name ?? '',
+      "lastName": customer?.lastName ?? '',
       "phone": customer?.phone,
       "startDate": d.item1.toString(),
       "timezone":
@@ -83,8 +83,9 @@ class AppProvider with ChangeNotifier {
     final res = await injector.get<ApiClient>().checkin(data);
     CommonHelper.hideLoading();
     if (res != null && res.success == true) {
+      Navigator.of(context)
+          .pushNamed(RouteNames.successCheckin, arguments: customer?.points);
       clearData();
-      Navigator.of(context).pushNamed(RouteNames.successCheckin);
     }
   }
 
