@@ -33,9 +33,10 @@ class _FillBirthdayScreenState extends State<FillBirthdayScreen> {
   ];
   int _selectedMonth = 0;
   int _selectedDay = 0;
+  int _selectedYear = 0;
   _onNext() {
     context.read<AppProvider>().customer?.birthday =
-        '${_selectedDay + 1}/${_selectedMonth + 1}/2020';
+        '${(_selectedMonth + 1).toString().padLeft(2, "0")}-${(_selectedDay + 1).toString().padLeft(2, "0")}-${_selectedYear + 1930}';
     Navigator.of(context).pushNamed(RouteNames.fillName, arguments: true);
   }
 
@@ -124,6 +125,29 @@ class _FillBirthdayScreenState extends State<FillBirthdayScreen> {
               onChanged: (v) {
                 setState(() {
                   _selectedDay = v;
+                });
+              },
+            ),
+          ),
+          Expanded(
+            child: _buildCupertinoPicker(
+              List<Widget>.generate(
+                100,
+                (int index) {
+                  return Center(
+                    child: Text(
+                      (1930 + index).toString(),
+                      style: TextStyleConstant.livvicW400(
+                        fontSize: 22,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              initialItem: _selectedDay,
+              onChanged: (v) {
+                setState(() {
+                  _selectedYear = v;
                 });
               },
             ),

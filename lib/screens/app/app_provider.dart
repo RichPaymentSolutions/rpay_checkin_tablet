@@ -63,7 +63,7 @@ class AppProvider with ChangeNotifier {
       'customerId': customer?.customerId ?? '',
       "email": customer?.email ?? '',
       "endDate": d.item2.toString(),
-      "firstName": customer?.name ?? '',
+      "firstName": customer?.name ?? (customer?.firstName ?? ''),
       "lastName": customer?.lastName ?? '',
       "phone": customer?.phone,
       "startDate": d.item1.toString(),
