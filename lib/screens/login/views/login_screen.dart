@@ -12,6 +12,7 @@ import 'package:rp_checkin/components/radio_button.dart';
 import 'package:rp_checkin/extensions/string_ext.dart';
 import 'package:rp_checkin/helpers/dialog_helper.dart';
 import 'package:rp_checkin/routes/routes_manager.dart';
+import 'package:rp_checkin/screens/login/views/widgets/lock_app_view.dart';
 import 'package:rp_checkin/services/api_client/api_client.dart';
 import 'package:rp_checkin/services/di/di.dart';
 import 'package:rp_checkin/services/shared_manager/shared_manager.dart';
@@ -90,7 +91,15 @@ class _LoginScreenState extends State<LoginScreen> {
       injector
           .get<SharedManager>()
           .setString(SharedKey.timezone.name, res.data!.timezone!);
-      Navigator.of(context).pushNamed(RouteNames.fillPhone);
+      if (res.data?.showChecking != true) {
+        showDialog(
+          context: context,
+          builder: (_) => const LockAppView(),
+        );
+        return;
+      } else {
+        Navigator.of(context).pushNamed(RouteNames.fillPhone);
+      }
     }
   }
 

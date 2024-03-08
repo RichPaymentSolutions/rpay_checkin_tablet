@@ -26,12 +26,15 @@ void main() async {
   );
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Checkin App',
       theme: ThemeData(
         useMaterial3: false,

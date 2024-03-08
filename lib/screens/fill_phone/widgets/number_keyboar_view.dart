@@ -39,19 +39,24 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          _num == ''
-              ? 'Please enter your phone number to continue.'
-              : _num.format(),
-          style: _num == ''
-              ? TextStyleConstant.livvicW400(
-                  fontSize: 16,
-                  color: ColorConstant.grey637281,
-                )
-              : TextStyleConstant.livvicW600(
-                  fontSize: 32,
-                  color: ColorConstant.primary,
-                ),
+        SizedBox(
+          height: 45,
+          child: Center(
+            child: Text(
+              _num == ''
+                  ? 'Please enter your phone number to continue.'
+                  : _num.format(),
+              style: _num == ''
+                  ? TextStyleConstant.livvicW400(
+                      fontSize: 16,
+                      color: ColorConstant.grey637281,
+                    )
+                  : TextStyleConstant.livvicW600(
+                      fontSize: 32,
+                      color: ColorConstant.primary,
+                    ),
+            ),
+          ),
         ),
         const SizedBox(
           height: 43,

@@ -22,6 +22,7 @@ class BusinessInfoModel {
   String? adminId;
   String? pK;
   String? businessPhone;
+  bool? showChecking;
   BusinessInfoModel();
 
   factory BusinessInfoModel.fromJson(Map<String, dynamic> json) =>

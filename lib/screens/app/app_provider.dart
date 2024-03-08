@@ -4,15 +4,16 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:rp_checkin/helpers/common_helper.dart';
+import 'package:rp_checkin/main.dart';
 import 'package:rp_checkin/models/category/category_model.dart';
 import 'package:rp_checkin/models/customer/customer_model.dart';
 import 'package:rp_checkin/models/staff/staff_model.dart';
 import 'package:rp_checkin/routes/routes_manager.dart';
+import 'package:rp_checkin/screens/login/views/widgets/lock_app_view.dart';
 import 'package:rp_checkin/services/api_client/api_client.dart';
 import 'package:rp_checkin/services/di/di.dart';
 import 'package:rp_checkin/services/shared_manager/shared_manager.dart';
 import 'package:uuid/uuid.dart';
-import 'package:uuid/v4.dart';
 
 class AppProvider with ChangeNotifier {
   CustomerModel? customer;
@@ -94,5 +95,24 @@ class AppProvider with ChangeNotifier {
     listStaffSelected.clear();
     listStaffIdSelected.clear();
     staffSelected = StaffModel();
+  }
+
+  getShopInfo() async {
+    final res = await injector.get<ApiClient>().getBusinessInfo();
+
+    if (res != null && res.data != null) {
+      injector
+          .get<SharedManager>()
+          .setString(SharedKey.businessName.name, res.data!.businessName!);
+      injector
+          .get<SharedManager>()
+          .setString(SharedKey.timezone.name, res.data!.timezone!);
+      if (res.data?.showChecking != true) {
+        showDialog(
+          context: navigatorKey.currentContext!,
+          builder: (_) => const LockAppView(),
+        );
+      }
+    }
   }
 }

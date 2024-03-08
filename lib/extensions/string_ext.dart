@@ -18,4 +18,8 @@ extension GetAssetsExt on String {
   String get imgPNG {
     return 'assets/images/$this.png';
   }
+
+  String get imgJPG {
+    return 'assets/images/$this.jpg';
+  }
 }

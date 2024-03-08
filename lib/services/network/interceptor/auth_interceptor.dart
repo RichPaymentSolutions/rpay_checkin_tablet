@@ -1,4 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:rp_checkin/helpers/dialog_helper.dart';
+import 'package:rp_checkin/main.dart';
+import 'package:rp_checkin/routes/routes_manager.dart';
 import 'package:rp_checkin/services/api_client/api_client.dart';
 import 'package:rp_checkin/services/di/di.dart';
 import 'package:rp_checkin/services/shared_manager/shared_manager.dart';
@@ -38,19 +42,31 @@ class AuthInterceptor extends InterceptorsWrapper {
     if (response.data is Map) {
       if (response.data['messageKey'] == 'TokenIsExpired') {
         print('refreshToken');
-        await refreshToken();
-        final retry = await _retry(response.requestOptions, dio);
-        return handler.resolve(retry);
-      } else if (response.data['messageKey'] == 'RefreshTokenIsExpired' ||
-          response.data['messageKey'] == 'Unauthorized') {
+
         if (!_isExpired) {
           _isExpired = true;
-          // MyAlertDialog.show(
-          //     message: MessageKey.refreshTokenIsExpired.message,
-          //     onFunction: () {
-          //       AppUtils.logout();
-          //       _isExpired = false;
-          //     });
+          final res = await refreshToken();
+          if (res) {
+            final retry = await _retry(response.requestOptions, dio);
+            return handler.resolve(retry);
+          }
+          final error = DioException(
+              requestOptions: response.requestOptions,
+              type: DioExceptionType.unknown);
+
+          return handler.reject(error);
+        }
+      } else if (response.statusCode == 502) {
+        if (_isExpired) {
+          DialogHelper.showOkDialog(navigatorKey.currentContext!,
+              'Your session is expired, please login again!', okAction: () {
+            injector.get<SharedManager>().clear();
+            Navigator.of(navigatorKey.currentContext!).pushNamedAndRemoveUntil(
+              RouteNames.login,
+              (route) => false,
+            );
+            _isExpired = false;
+          });
         }
 
         response.requestOptions.extra["tokenErrorType"] = 'token expired';
@@ -78,20 +94,34 @@ class AuthInterceptor extends InterceptorsWrapper {
     return result;
   }
 
-  Future<void> refreshToken() async {
+  Future<bool> refreshToken() async {
     final refreshToken =
         injector.get<SharedManager>().getString(SharedKey.refreshToken.name);
     if (refreshToken == null) {
-      return;
+      return false;
     }
     final data = {
       "refreshToken": refreshToken,
     };
-    final res = await injector.get<ApiClient>().refreshToken(data);
-    if (res != null && res.data != null) {
-      injector
-          .get<SharedManager>()
-          .setString(SharedKey.accessToken.name, res.data!);
+    try {
+      final res = await injector.get<ApiClient>().refreshToken(data);
+      if (res != null && res.data != null) {
+        injector
+            .get<SharedManager>()
+            .setString(SharedKey.accessToken.name, res.data!);
+        return true;
+      }
+    } catch (_) {
+      DialogHelper.showOkDialog(navigatorKey.currentContext!,
+          'Your session is expired, please login again!', okAction: () {
+        injector.get<SharedManager>().clear();
+        Navigator.of(navigatorKey.currentContext!).pushNamedAndRemoveUntil(
+          RouteNames.login,
+          (route) => false,
+        );
+        _isExpired = false;
+      });
     }
+    return false;
   }
 }

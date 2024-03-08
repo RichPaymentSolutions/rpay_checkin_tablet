@@ -3,6 +3,7 @@ import 'package:rp_checkin/components/app_progress_indicator.dart';
 import 'package:rp_checkin/services/di/di.dart';
 import 'package:rp_checkin/services/shared_manager/shared_manager.dart';
 import 'package:timezone/standalone.dart' as tz;
+import 'package:url_launcher/url_launcher.dart';
 
 class CommonHelper {
   static BuildContext? _loadingContext;
@@ -56,6 +57,15 @@ class CommonHelper {
       startDay.millisecondsSinceEpoch,
       endDay.millisecondsSinceEpoch,
     );
+  }
+
+  static launchCaller() async {
+    Uri url = Uri(scheme: "tel", path: '17754387424');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 

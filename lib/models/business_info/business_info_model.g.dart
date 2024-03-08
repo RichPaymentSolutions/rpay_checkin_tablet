@@ -29,7 +29,8 @@ BusinessInfoModel _$BusinessInfoModelFromJson(Map<String, dynamic> json) =>
       ..sK = json['sK'] as String?
       ..adminId = json['adminId'] as String?
       ..pK = json['pK'] as String?
-      ..businessPhone = json['businessPhone'] as String?;
+      ..businessPhone = json['businessPhone'] as String?
+      ..showChecking = json['showChecking'] as bool?;
 
 Map<String, dynamic> _$BusinessInfoModelToJson(BusinessInfoModel instance) =>
     <String, dynamic>{
@@ -52,6 +53,7 @@ Map<String, dynamic> _$BusinessInfoModelToJson(BusinessInfoModel instance) =>
       'adminId': instance.adminId,
       'pK': instance.pK,
       'businessPhone': instance.businessPhone,
+      'showChecking': instance.showChecking,
     };
 
 BookingHoursModel _$BookingHoursModelFromJson(Map<String, dynamic> json) =>
