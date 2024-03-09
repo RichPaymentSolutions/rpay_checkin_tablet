@@ -85,19 +85,26 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = false;
     });
     if (res != null && res.data != null) {
-      injector
-          .get<SharedManager>()
-          .setString(SharedKey.businessName.name, res.data!.businessName!);
-      injector
-          .get<SharedManager>()
-          .setString(SharedKey.timezone.name, res.data!.timezone!);
       if (res.data?.showChecking != true) {
+        // injector.get<SharedManager>().clear();
+        injector
+            .get<SharedManager>()
+            .setString(SharedKey.businessName.name, res.data!.businessName!);
+        injector
+            .get<SharedManager>()
+            .setString(SharedKey.timezone.name, res.data!.timezone!);
         showDialog(
           context: context,
           builder: (_) => const LockAppView(),
         );
         return;
       } else {
+        injector
+            .get<SharedManager>()
+            .setString(SharedKey.businessName.name, res.data!.businessName!);
+        injector
+            .get<SharedManager>()
+            .setString(SharedKey.timezone.name, res.data!.timezone!);
         Navigator.of(context).pushNamed(RouteNames.fillPhone);
       }
     }

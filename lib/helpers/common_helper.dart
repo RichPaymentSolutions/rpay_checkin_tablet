@@ -60,7 +60,7 @@ class CommonHelper {
   }
 
   static launchCaller() async {
-    Uri url = Uri(scheme: "tel", path: '17754387424');
+    Uri url = Uri(scheme: "tel", path: '+17754387424');
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {

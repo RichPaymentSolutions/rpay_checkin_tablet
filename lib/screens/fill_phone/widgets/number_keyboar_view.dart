@@ -101,17 +101,21 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
       );
     }
 
-    return InkWell(
-      onTap: () => _handleClick(title),
-      child: Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: borderColor),
-        ),
-        child: Center(
-          child: child,
+    return Material(
+      child: InkWell(
+        onTap: () => _handleClick(title),
+        splashColor: Colors.grey,
+        borderRadius: BorderRadius.circular(50),
+        child: Container(
+          height: 100,
+          width: 100,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: borderColor),
+          ),
+          child: Center(
+            child: child,
+          ),
         ),
       ),
     );
