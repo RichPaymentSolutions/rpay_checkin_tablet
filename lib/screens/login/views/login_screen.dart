@@ -86,7 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     if (res != null && res.data != null) {
       if (res.data?.showChecking != true) {
-        // injector.get<SharedManager>().clear();
         injector
             .get<SharedManager>()
             .setString(SharedKey.businessName.name, res.data!.businessName!);
@@ -97,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context: context,
           builder: (_) => const LockAppView(),
         );
+        injector.get<SharedManager>().clear();
         return;
       } else {
         injector
