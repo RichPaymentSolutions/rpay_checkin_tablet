@@ -24,6 +24,7 @@ class _ListStaffsScreenState extends State<ListStaffsScreen> {
   bool _isLoading = true;
   @override
   void initState() {
+    context.read<AppProvider>().getShopInfo();
     _getListStaff();
     super.initState();
   }

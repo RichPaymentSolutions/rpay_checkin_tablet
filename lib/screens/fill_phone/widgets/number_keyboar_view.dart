@@ -102,6 +102,7 @@ class _NumberKeyboardViewState extends State<NumberKeyboardView> {
     }
 
     return Material(
+      color: Colors.transparent,
       child: InkWell(
         onTap: () => _handleClick(title),
         splashColor: Colors.grey,
