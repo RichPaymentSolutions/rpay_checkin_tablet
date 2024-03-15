@@ -51,10 +51,11 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
 
     setState(() {
       _isLoading = false;
-      context.read<AppProvider>().catalogs = res?.data ?? [];
-      _catalogs = res?.data ?? [];
-      _catalogsOrigin = res?.data ?? [];
-      _categories = res?.data ?? [];
+      final cats = (res?.data ?? []).where((e) => e.isCheckIn == true).toList();
+      context.read<AppProvider>().catalogs = cats;
+      _catalogs = cats;
+      _catalogsOrigin = cats;
+      _categories = cats;
     });
   }
 

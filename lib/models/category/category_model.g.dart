@@ -22,7 +22,8 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) =>
       ..catId = json['catId'] as String?
       ..products = (json['products'] as List<dynamic>?)
           ?.map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
-          .toList();
+          .toList()
+      ..isCheckIn = json['isCheckIn'] as bool?;
 
 Map<String, dynamic> _$CategoryModelToJson(CategoryModel instance) =>
     <String, dynamic>{
@@ -36,6 +37,7 @@ Map<String, dynamic> _$CategoryModelToJson(CategoryModel instance) =>
       'PK': instance.PK,
       'catId': instance.catId,
       'products': instance.products?.map((e) => e.toJson()).toList(),
+      'isCheckIn': instance.isCheckIn,
     };
 
 CatColorModel _$CatColorModelFromJson(Map<String, dynamic> json) =>

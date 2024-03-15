@@ -14,6 +14,7 @@ class CategoryModel {
   String? PK;
   String? catId;
   List<ProductModel>? products;
+  bool? isCheckIn;
   CategoryModel({
     this.catName,
   });

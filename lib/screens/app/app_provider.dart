@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rp_checkin/helpers/common_helper.dart';
 import 'package:rp_checkin/main.dart';
@@ -98,6 +99,9 @@ class AppProvider with ChangeNotifier {
   }
 
   getShopInfo() async {
+    if (kDebugMode) {
+      return;
+    }
     final res = await injector.get<ApiClient>().getBusinessInfo();
 
     if (res != null && res.data != null) {
